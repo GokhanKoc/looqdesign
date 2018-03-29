@@ -1,0 +1,180 @@
+{
+  "messages" : {
+    "-KfRJhz1dvMAmLLGSjtk" : {
+      "content" : "Atatürk Heykelini gezebilirsin..",
+      "createdAt" : 1489755103399,
+      "latitude" : 39.941791328303154,
+      "longitude" : 32.85478591918945,
+      "owner" : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
+      "relatedQuestion" : "-KfRHolBknbwsupHxxTy",
+      "status" : "TRUE"
+    }
+  },
+  "questions" : {
+    "-KflE41xFgI31eq1Gii6" : {
+      "content" : "merhaba yeni soru",
+      "createdAt" : 1490105946526,
+      "createdAt2" : "21 Mar 2017 12:00 am",
+      "latitude" : 41.0082376,
+      "longitude" : 28.97835889999999,
+      "owner" : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
+      "status" : "new",
+      "type" : "Event"
+    },
+    "-KgEsZY92CHYPyglFLIl" : {
+      "content" : "yeni bir event var",
+      "createdAt" : 1490620139998,
+      "createdAt2" : "27 Mar 2017 12:00 am",
+      "latitude" : 41.139938900000004,
+      "longitude" : 29.038892199999964,
+      "owner" : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
+      "status" : "new",
+      "type" : "Event"
+    },
+    "-KgEsnXtX-o_AgMT54_X" : {
+      "content" : "yeni bir gourmet var",
+      "createdAt" : 1490620201319,
+      "createdAt2" : "27 Mar 2017 12:00 am",
+      "latitude" : 41.1399384,
+      "longitude" : 29.038893499999972,
+      "owner" : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
+      "status" : "new",
+      "type" : "Gourmet"
+    },
+    "-KgEtW_JdT2f-0JA7KyH" : {
+      "content" : "travel var travel",
+      "createdAt" : 1490620389888,
+      "createdAt2" : "27 Mar 2017 12:00 am",
+      "latitude" : 41.139938300000004,
+      "longitude" : 29.038940300000036,
+      "owner" : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
+      "status" : "new",
+      "type" : "Travel"
+    },
+    "-KgEthyu9SdXhWkpAyuc" : {
+      "content" : "travel var yine buradan nireye",
+      "createdAt" : 1490620440677,
+      "createdAt2" : "27 Mar 2017 12:00 am",
+      "latitude" : 41.1399386,
+      "longitude" : 29.038892300000043,
+      "owner" : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
+      "status" : "new",
+      "type" : "Travel"
+    },
+    "-KgUQv7eZtLadePMoRHD" : {
+      "content" : "Event 001",
+      "createdAt" : 1490881065695,
+      "createdAt2" : "30 Mar 2017 12:00 am",
+      "latitude" : 41.0082376,
+      "longitude" : 28.97835889999999,
+      "owner" : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
+      "status" : "new",
+      "type" : "Event"
+    }
+  },
+  "users" : {
+    "GqnLbc5gFmNWqIj8yKcPSVkoNCz1" : {
+      "answer_count" : 7,
+      "email" : "gokhan@fikrigelgit.com",
+      "waitingAnswers" : {
+        "-KflE41xFgI31eq1Gii6" : {
+          "createdAt" : 1490105946740,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEsZY92CHYPyglFLIl" : {
+          "createdAt" : 1490620140171,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEsnXtX-o_AgMT54_X" : {
+          "createdAt" : 1490620201495,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEtW_JdT2f-0JA7KyH" : {
+          "createdAt" : 1490620390063,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEthyu9SdXhWkpAyuc" : {
+          "createdAt" : 1490620440850,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgUQv7eZtLadePMoRHD" : {
+          "createdAt" : 1490881065870,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        }
+      }
+    },
+    "LTp55GdFgPWiAe8qCXNBZLfrVKC3" : {
+      "displayName" : "Gökhan Koç",
+      "email" : "gokhan.koc@gmail.com",
+      "googleUid" : "105243074734689586719",
+      "uppercase" : "GÖKHAN KOÇ"
+    },
+    "NTDFhI2jOeZ83hzsBSUUqCJVoy03" : {
+      "answer_count" : 1,
+      "email" : "gokhan@deneme.com",
+      "waitingAnswers" : {
+        "-KgUQv7eZtLadePMoRHD" : {
+          "createdAt" : 1490881065871,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        }
+      }
+    },
+    "pi8w8SHQuZgkX358FJNzv1VZBHa2" : {
+      "answer_count" : 7,
+      "displayName" : "Umut Hazal Koc",
+      "email" : "umuthazalkoc@gmail.com",
+      "googleUid" : "104024371948221004028",
+      "waitingAnswers" : {
+        "-KfRHolBknbwsupHxxTy" : {
+          "createdAt" : 1489754607671,
+          "viewedBy" : "FALSE"
+        },
+        "-KflE41xFgI31eq1Gii6" : {
+          "createdAt" : 1490105946741,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEsZY92CHYPyglFLIl" : {
+          "createdAt" : 1490620140172,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEsnXtX-o_AgMT54_X" : {
+          "createdAt" : 1490620201495,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEtW_JdT2f-0JA7KyH" : {
+          "createdAt" : 1490620390064,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgEthyu9SdXhWkpAyuc" : {
+          "createdAt" : 1490620440855,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        },
+        "-KgUQv7eZtLadePMoRHD" : {
+          "createdAt" : 1490881065873,
+          "status" : "waiting",
+          "viewedBy" : "FALSE"
+        }
+      }
+    }
+  },
+  "waitingAnswers" : {
+    "-KfRHolBknbwsupHxxTy" : {
+      "pi8w8SHQuZgkX358FJNzv1VZBHa2" : {
+        "createdAt" : 1489754607671,
+        "viewedBy" : "FALSE"
+      }
+    }
+  }
+}
