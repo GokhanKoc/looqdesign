@@ -2,9 +2,8 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Provider } from 'react-redux';
 
-import store from './store';
-//import { MainNavigator } from './components/Navigator';
-import MainContainer from './screens/MainContainer';
+import store from './src/redux/store';
+import MainContainer from './src/screens/MainContainer';
 
 export default class App extends React.Component {
   render() {

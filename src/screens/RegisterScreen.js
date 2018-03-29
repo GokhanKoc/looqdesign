@@ -21,22 +21,20 @@ let vw = Dimensions.get('window').width /100;
 let vh = Dimensions.get('window').height /100;
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../actions'
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../redux/actions';
 
 // FIREBASE RELATED ITEMS
-import firebase from '../components/Firebase';
+import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 import { _ } from 'lodash';
 
 class RegisterScreen extends Component {
-
-  firebaseDatabase = firebase.database();
 
   static navigationOptions = {
     title: 'Register',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../images/iconset_dots.png')}
+        source={require('../assets/images/iconset_dots.png')}
         style={[styles.dots, {tintColor: tintColor}]}
       />
     )

@@ -11,8 +11,8 @@ const LONGITUDE_DELTA = 0.0322; //LATITUDE_DELTA * ASPECT_RATIO;
 
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../actions'
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../redux/actions';
 
 class Map extends React.Component {
 

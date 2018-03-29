@@ -18,7 +18,7 @@ export default class SettingsScreen extends Component {
     title: 'Settings',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../images/iconset_burger.png')}
+        source={require('../assets/images/iconset_burger.png')}
         style={[styles.burger, {tintColor: tintColor}]}
       />
     )

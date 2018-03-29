@@ -22,11 +22,11 @@ const { width, height } = Dimensions.get('window');
 
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../actions'
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../redux/actions';
 
 // FIREBASE RELATED ITEMS
-import firebase from '../components/Firebase';
+import firebase,{ firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 import { _ } from 'lodash';
 var moment = require('moment');
 
@@ -39,13 +39,12 @@ let vh = Dimensions.get('window').height /100;
 
 class HomeScreen extends Component {
 
-  firebaseDatabase = firebase.database();
 
   static navigationOptions = {
     title: 'AskQuestion',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../images/iconset_dots.png')}
+        source={require('../assets/images/iconset_dots.png')}
         style={[styles.dots, {tintColor: tintColor}]}
       />
     )
@@ -82,7 +81,7 @@ class HomeScreen extends Component {
 
         var userUid = this.props.auth.uid
         // insert question infos into QUESTIONS table
-        var question = this.firebaseDatabase.ref('questions/').push();
+        var question = firebaseDatabase.ref('questions/').push();
 
         var dateTime = firebase.database.ServerValue.TIMESTAMP
         // New question created....
@@ -98,7 +97,7 @@ class HomeScreen extends Component {
         });
 
         // insert questions infos into USERS table
-        this.firebaseDatabase.ref('users/' + userUid).child('questions/').child(question.key).set("TRUE");
+        firebaseDatabase.ref('users/' + userUid).child('questions/').child(question.key).set("TRUE");
 
         // SEND Question to other users..
         this.sendQuestionToRandomUser(question.key,userUid);
@@ -139,14 +138,14 @@ class HomeScreen extends Component {
     sendQuestion(questionUid,answerUserUid) {
       // Seçilen kullanıcılara soru gönderilmeli ve ayrıca bu kullanıcılara notification iletmeliyiz..
       // Firebase notification kullanılabilir...
-      this.firebaseDatabase.ref('users/' + answerUserUid).child('waitingAnswers/').child(questionUid).set({
+      firebaseDatabase.ref('users/' + answerUserUid).child('waitingAnswers/').child(questionUid).set({
               createdAt: firebase.database.ServerValue.TIMESTAMP,
               status: constants.ANSWER_STATUS_WAITING,
               viewedBy: "FALSE"
       });
 
       //Soru domain içerisine de kimlerden cevap beklendiği bilgisini işle.
-      this.firebaseDatabase.ref('questions/' + questionUid).child('waitingAnswers/').child(answerUserUid).set({
+      firebaseDatabase.ref('questions/' + questionUid).child('waitingAnswers/').child(answerUserUid).set({
               createdAt: firebase.database.ServerValue.TIMESTAMP,
               status: constants.ANSWER_STATUS_WAITING,
               viewedBy: "FALSE"

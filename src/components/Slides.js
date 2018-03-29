@@ -11,7 +11,7 @@ class Slides extends Component {
     if (index === this.props.data.length - 1) {
       return (
         <Button
-          title="Let's begin Qbee"
+          title="Let's begin Looq"
           raised
           buttonStyle={styles.buttonStyle}
           onPress={this.props.onComplete}

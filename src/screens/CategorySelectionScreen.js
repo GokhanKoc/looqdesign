@@ -23,23 +23,22 @@ let vh = Dimensions.get('window').height /100;
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../actions'
+import { ActionCreators } from '../redux/actions'
 
 // FIREBASE RELATED ITEMS
-import firebase from '../components/Firebase';
+import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
+
 import { _ } from 'lodash';
 
 import * as constants from '../constants/dataConstants';
 
 class CategorySelectionScreen extends Component {
 
-  firebaseDatabase = firebase.database();
-
   static navigationOptions = {
     title: 'Categories',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../images/iconset_dots.png')}
+        source={require('../assets/images/iconset_dots.png')}
         style={[styles.dots, {tintColor: tintColor}]}
       />
     )
@@ -63,7 +62,7 @@ class CategorySelectionScreen extends Component {
       if(!_.isEmpty(this.props.auth)) {
 
         //GET Active User datas
-        this.firebaseDatabase.ref('users/').child(this.props.auth.uid).on('value',(snapshot) => {
+        firebaseDatabase.ref('users/').child(this.props.auth.uid).on('value',(snapshot) => {
 
           var categories = snapshot.val().categories;
 
@@ -111,7 +110,7 @@ class CategorySelectionScreen extends Component {
 
     register = () => {
 
-      firebase.database().ref('users/').child(this.props.auth.uid).update({
+      firebaseDatabase.ref('users/').child(this.props.auth.uid).update({
           registered: true,
           categories: {
             fun: this.state.funSwitchIsOn,

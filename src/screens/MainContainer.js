@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-//import { MainNavigator } from '../components/Navigator';
 import {
     View,
     StyleSheet
@@ -19,7 +18,7 @@ import CategorySelectionScreen from '../screens/CategorySelectionScreen';
 import { TabNavigator, StackNavigator } from 'react-navigation';
 
 const MainNavigator = TabNavigator ({
-  welcome: { screen: WelcomeScreen },
+  //welcome: { screen: WelcomeScreen },
   signup: { screen: SignUpScreen },
   main: {
       screen: TabNavigator({

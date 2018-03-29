@@ -1,17 +1,16 @@
 
-import firebase from '../components/Firebase';
+import { firebaseAuth,firebaseDatabase,firebase } from '../firebase/firebase';
+
 
 
 export const addQuestion(location,question_type,question_content) => {
  {
 
-    var db = firebase.database();
-
     //Login olmuş kullanıcı
-    if(firebase.auth().currentUser) {
+    if(firebaseAuth.currentUser) {
 
       // insert question infos into QUESTIONS table
-      var question = db.ref('questions/').push();
+      var question = firebaseDatabase.ref('questions/').push();
 
       // New question created....
       question.set({
@@ -26,7 +25,7 @@ export const addQuestion(location,question_type,question_content) => {
       });
 
       // insert questions infos into USERS table
-      db.ref('users/' + userUid).child('questions/').child(question.key).set("TRUE");
+      firebaseDatabase.ref('users/' + userUid).child('questions/').child(question.key).set("TRUE");
 
       // SEND Question to other users..
       this.sendQuestionToRandomUser(question.key,userUid);

@@ -21,22 +21,21 @@ const { width, height } = Dimensions.get('window');
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../actions'
+import { ActionCreators } from '../redux/actions'
 
 // FIREBASE RELATED ITEMS
-import firebase from '../components/Firebase';
+import firebase,{ firebaseAuth,firebaseDatabase } from '../firebase/firebase';
+
 import { _ } from 'lodash';
 var moment = require('moment');
 
 class HomeScreen extends Component {
 
-  firebaseDatabase = firebase.database();
-
   static navigationOptions = {
     title: 'Answer',
     tabBarIcon: ({ tintColor }) => (
       <Image
-        source={require('../images/iconset_dots.png')}
+        source={require('../assets/images/iconset_dots.png')}
         style={[styles.dots, {tintColor: tintColor}]}
       />
     )
@@ -60,7 +59,7 @@ class HomeScreen extends Component {
       console.log("Daha önceden yaratılmış bir chatRoom var mı");
       var chatroom = null
 
-      let snapshot = await this.firebaseDatabase.ref('users/' + this.props.auth.uid)
+      let snapshot = await firebaseDatabase.ref('users/' + this.props.auth.uid)
           .child('chatRooms/')
           .child(questionId)
           .once('value');
@@ -103,20 +102,20 @@ class HomeScreen extends Component {
             newChatRoom.child('members/').set({memberUserUid: this.props.auth.uid});
 
             // Insert chatrooms info for this question
-            this.firebaseDatabase.ref('questions/' + questionId)
+            firebaseDatabase.ref('questions/' + questionId)
                 .child('chatRooms/')
                 .child(chatRoom).set('TRUE');
 
 
             //Insert chatroom info for the userUid
-            this.firebaseDatabase.ref('users/' + this.props.auth.uid)
+            firebaseDatabase.ref('users/' + this.props.auth.uid)
                 .child('chatRooms/')
                 .child(questionId)
                 .child(chatRoom).set('TRUE');
           }
 
           // Insert messages into chatrooms
-          var messageRef = this.firebaseDatabase.ref('chatRooms/' + chatRoom).child('messages/').push();
+          var messageRef = firebaseDatabase.ref('chatRooms/' + chatRoom).child('messages/').push();
           messageRef.set({
             content: this.state.answer,
             createdAt : firebase.database.ServerValue.TIMESTAMP,

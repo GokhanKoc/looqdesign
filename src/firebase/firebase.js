@@ -1,4 +1,4 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 
 // should go in a secret file
 const config = {
@@ -12,3 +12,6 @@ const config = {
 firebase.initializeApp(config);
 
 export default firebase;
+export const firebaseDatabase = firebase.database();
+export const firebaseAuth = firebase.auth();
+export const firebaseStorage = firebase.storage();

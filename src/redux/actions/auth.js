@@ -1,7 +1,7 @@
 
 import { Facebook, Google } from 'expo';
-import firebase from '../components/Firebase';
-import * as constants from '../constants/dataConstants';
+import firebase, { firebaseAuth, firebaseDatabase } from '../../firebase/firebase';
+import * as constants from '../../constants/dataConstants';
 
 
 import {
@@ -46,11 +46,11 @@ const doFacebookLogin = async dispatch => {
     console.log("CREDENTIAL"+credential);
 
     // Sign in with credential from the Facebook user.
-    firebase.auth().signInWithCredential(credential).then((user) => {
+    firebaseAuth.signInWithCredential(credential).then((user) => {
 
 
       if(!checkUserIfRegister(user.uid)) {
-        firebase.database().ref('users/').child(user.uid).set({
+        firebaseDatabase.ref('users/').child(user.uid).set({
           registered: false,
           email: user.email,
           displayName: user.displayName,
@@ -78,7 +78,7 @@ const doFacebookLogin = async dispatch => {
 
 checkUserIfRegister = (uid) => {
   //GET User infos
-  firebase.database().ref('users/').child(uid).once('value').then( (userInfos) => {
+  firebaseDatabase.ref('users/').child(uid).once('value').then( (userInfos) => {
     return userInfos.val().registered
   })
 }
@@ -110,9 +110,9 @@ const doGoogleLogin = async dispatch => {
       const credential = firebase.auth.GoogleAuthProvider.credential(result.idToken);
 
       // Sign in with credential from the Google user.
-      let user = await firebase.auth().signInWithCredential(credential);
+      let user = await firebaseAuth.signInWithCredential(credential);
 
-      let userInfos= await firebase.database().ref('users/').child(user.uid).once('value');
+      let userInfos= await firebaseDatabase.ref('users/').child(user.uid).once('value');
 
       console.log("USERINFOS"+userInfos);
 
@@ -121,7 +121,7 @@ const doGoogleLogin = async dispatch => {
         console.log("USERINFOS BURAYA KADAR DA GELDI");
 
 
-        firebase.database().ref('users/').child(user.uid).set({
+        firebaseDatabase.ref('users/').child(user.uid).set({
             registered: false,
             email: user.email,
             displayName: user.displayName,

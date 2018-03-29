@@ -10,10 +10,11 @@ import {
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../actions'
+import { ActionCreators } from '../redux/actions'
 
 // FIREBASE RELATED ITEMS
-import firebase from '../components/Firebase';
+import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
+
 
 
 class SignUpScreen extends Component {
@@ -21,7 +22,7 @@ class SignUpScreen extends Component {
 
   facebookLogin = () => {
 
-    if (firebase.auth().currentUser) {
+    if (firebaseAuth.currentUser) {
       this.props.navigation.navigate('home');
     } else {
       // No user is signed in.
@@ -33,7 +34,7 @@ class SignUpScreen extends Component {
   //TODO Google login halledilmeli
   googleLogin = async () => {
 
-    if (firebase.auth().currentUser) {
+    if (firebaseAuth.currentUser) {
         this.props.navigation.navigate('home');
     } else {
         this.props.googleLogin();
@@ -47,7 +48,7 @@ class SignUpScreen extends Component {
     // LOGIN WITH EMAIL
     console.log("LOGOUT");
 
-    firebase.auth().signOut().then(() => {
+    firebaseAuth.signOut().then(() => {
       console.log('Signed Out');
       this.props.dispatchLogOut();
 
@@ -65,7 +66,7 @@ class SignUpScreen extends Component {
 
       //User registered
       //GET User infos
-      firebase.database().ref('users/').child(props.auth.uid).once('value').then( (user) => {
+      firebaseDatabase.ref('users/').child(props.auth.uid).once('value').then( (user) => {
 
 
         if(user.registered == 'true') {
@@ -82,7 +83,7 @@ class SignUpScreen extends Component {
       return (
           <View style={styles.wrapper}>
             <ImageBackground
-              source={require('../images/sign-up-bg.jpg')}
+              source={require('../assets/images/sign-up-bg.jpg')}
               style={styles.backgroundImage}>
               <View style={styles.container}>
                 <View style={styles.bottom}>

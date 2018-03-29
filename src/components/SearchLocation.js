@@ -9,8 +9,8 @@ const LATITUDE_DELTA = 0.3;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
 import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux'
-import { ActionCreators } from '../actions'
+import { bindActionCreators } from 'redux';
+import { ActionCreators } from '../redux/actions';
 
 class SearchLocation extends Component {
 
