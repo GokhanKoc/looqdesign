@@ -10,7 +10,8 @@ import {
     View,
     Image,
     TextInput,
-    Switch
+    Switch,
+    KeyboardAvoidingView
 } from 'react-native';
 import { Icon, Button,SocialIcon, ButtonGroup } from 'react-native-elements';
 import Map from '../components/Map';
@@ -364,14 +365,16 @@ class HomeScreen extends Component {
                     SAG TARAF hoppal
                   </Text>
                 </View>
-                <TextInput style={styles.questionInput}
-                  onChangeText={this.questionChange}
-                  multiline={true}
-                  value={this.state.question ? this.state.question : ''}
-                  placeholder="Your Question..."
-                  placeholderTextColor="white"
-                  underlineColorAndroid="rgba(0, 0, 0, 0)"
-                  numberOfLines={2}/>
+                <KeyboardAvoidingView behavior="padding" style={styles.form}>
+                  <TextInput style={styles.questionInput}
+                    onChangeText={this.questionChange}
+                    multiline={true}
+                    value={this.state.question ? this.state.question : ''}
+                    placeholder="Your Question..."
+                    placeholderTextColor="white"
+                    underlineColorAndroid="rgba(0, 0, 0, 0)"
+                    numberOfLines={2}/>
+                </KeyboardAvoidingView>
               </View>
               <View style={styles.buttonWrapper}>
                 <Button

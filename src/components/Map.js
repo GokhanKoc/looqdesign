@@ -44,7 +44,9 @@ class Map extends React.Component {
   }
 
   onRegionChangeComplete = (region) => {
-    this.setState({location: region});
+    console.log("onRegionChangeComplete");
+
+    //this.setState({location: region});
     this.props.changeLocation(region);
   }
 
@@ -66,6 +68,8 @@ class Map extends React.Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
+console.log("ASYNC LOCATION------"+this.props.location.latitude+"-------"+region.latitude+"------")
+
     //this.setState({location: region});
     console.log("ASYNC LOCATION FOUND")
     this.props.changeLocation(region);
@@ -80,19 +84,27 @@ class Map extends React.Component {
 
 
   componentWillReceiveProps(nextProps) {
-    console.log("NEXT PROPS" + nextProps);
-    this.setState({location: nextProps.location});
-    //this.state.location = this.props.location;
+
+    console.log("componentWillReceiveProps")
+
+    console.log("LATITUDE NEXT PROS"+nextProps.location.latitude)
+    console.log("LATITUDE THIS PROS"+this.props.location.latitude)
+
+
+    if(nextProps.location !== this.props.location) {
+      this.setState({location: nextProps.location});
+    }
   }
 
 
  
   render() {
 
+    console.log("Render")
+
       return (
           <MapView.Animated
             style={{ position: 'absolute', top: 0, left: 0,right: 0,bottom: 0 }}
-            //initialRegion={this.state.location}
             region={this.state.location}
             customMapStyle={mapStyle}
             provider="google"

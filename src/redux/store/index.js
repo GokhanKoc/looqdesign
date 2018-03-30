@@ -8,7 +8,7 @@ import { persistStore } from 'redux-persist';
 
 
 // middleware that logs actions
-const logger = createLogger({ predicate: (getState, action) => __DEV__  });
+//const logger = createLogger({ predicate: (getState, action) => __DEV__  });
 
 
 const store = createStore(
@@ -16,8 +16,8 @@ const store = createStore(
   undefined,
   compose(
     applyMiddleware(
-      thunk,
-      logger
+      thunk //,
+//      logger
     )
   )
 )

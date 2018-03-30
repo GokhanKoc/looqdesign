@@ -1,11 +1,9 @@
 
-import { firebaseAuth,firebaseDatabase,firebase } from '../firebase/firebase';
-
+import firebase,{ firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 
 
 export const addQuestion(location,question_type,question_content) => {
  {
-
     //Login olmuş kullanıcı
     if(firebaseAuth.currentUser) {
 
@@ -31,8 +29,5 @@ export const addQuestion(location,question_type,question_content) => {
       this.sendQuestionToRandomUser(question.key,userUid);
 
     }
-
-
-
 
 }
