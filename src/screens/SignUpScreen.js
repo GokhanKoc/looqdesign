@@ -17,8 +17,6 @@ import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 import * as routeConstants from '../constants/routeConstants';
 
 
-
-
 class SignUpScreen extends Component {
 
 

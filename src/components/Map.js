@@ -39,6 +39,7 @@ class Map extends React.Component {
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
       });
     } else {
+      this.props.changeLocation(this.state.location);
       this._getLocationAsync();
     }
   }
@@ -71,7 +72,6 @@ class Map extends React.Component {
     console.log("ASYNC LOCATION------"+this.props.location.latitude+"-------"+region.latitude+"------")
 
     //this.setState({location: region});
-    console.log("ASYNC LOCATION FOUND")
     this.props.changeLocation(region);
   };
 
@@ -84,8 +84,10 @@ class Map extends React.Component {
 
   shouldComponentUpdate(nextProps, nextState){
     if(this.props.location.latitude === nextProps.location.latitude){
+      console.log("SHOULD COMPONENT UPDATE FALSE")
       return false
     }else{
+      console.log("SHOULD COMPONENT UPDATE TRUE")
       return true
     }
   }
@@ -97,13 +99,19 @@ class Map extends React.Component {
     console.log("LATITUDE NEXT PROS"+nextProps.location.latitude)
     console.log("LATITUDE THIS PROS"+this.props.location.latitude)
 
-
     if(nextProps.location !== this.props.location) {
       this.setState({location: nextProps.location});
     }
   }
+
+  _onMapReady = () => {
+    console.log("HARITA HAZIRMIS NE GUZEL DI MI")
+  }
  
   render() {
+
+      console.log("MAP RERENDERED")
+      console.log("RENDER LOCATION------"+this.state.location.latitude+"-------"+this.state.location.longitude+"------")
       return (
           <MapView.Animated
             style={{ position: 'absolute', top: 0, left: 0,right: 0,bottom: 0 }}
@@ -112,6 +120,7 @@ class Map extends React.Component {
             provider="google"
             mapType="standard"
             showsUserLocation={true}
+            onMapReady={this._onMapReady}
             onRegionChangeComplete={this.onRegionChangeComplete}
           />
         )

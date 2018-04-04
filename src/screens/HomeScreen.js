@@ -146,11 +146,9 @@ class HomeScreen extends Component {
 
 
     questionChange = (question) => {
-      console.log("QUESTION CHANGE");
       this.setState({
         question: question
       })
-      console.log("QUESTION"+this.state.question);
     }
 
 
