@@ -114,12 +114,7 @@ const doGoogleLogin = async dispatch => {
 
       let userInfos= await firebaseDatabase.ref('users/').child(user.uid).once('value');
 
-      console.log("USERINFOS"+userInfos);
-
       if(userInfos.val() === null) {
-
-        console.log("USERINFOS BURAYA KADAR DA GELDI");
-
 
         firebaseDatabase.ref('users/').child(user.uid).set({
             registered: false,
@@ -136,18 +131,13 @@ const doGoogleLogin = async dispatch => {
           })
       }
       return dispatch({ type: GOOGLE_LOGIN_SUCCESS, payload: user });
-
     }
 
   } catch(error) {
     console.log(error);
     return dispatch({ type: GOOGLE_LOGIN_FAIL });
-
   }
-
 }
-
-
 
 export const dispatchLogOut = () => (dispatch) => {
   dispatch({type: USER_LOGOUT})

@@ -3,7 +3,6 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    TouchableOpacity,
     Dimensions,
     ScrollView,
     Platform,
@@ -26,7 +25,9 @@ import { ActionCreators } from '../redux/actions';
 
 // FIREBASE RELATED ITEMS
 import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
-import { _ } from 'lodash';
+
+import * as routeConstants from '../constants/routeConstants';
+ 
 
 class RegisterScreen extends Component {
 
@@ -40,15 +41,8 @@ class RegisterScreen extends Component {
     )
   }
 
-    constructor(props){
-        super(props);
-    }
-
-    componentDidMount() {
-    }
-
     selectCategory = () => {
-      this.props.navigation.navigate('categories')
+      this.props.navigation.navigate(routeConstants.ROUTE_CATEGORIES)
     }
 
     render() {

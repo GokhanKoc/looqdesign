@@ -1,17 +1,23 @@
 {
+  //Tüm kullanıcı bilgilerinin tutulacağı bölüm
   users: {
+    //Otomatik yaratılan unique bir Id
     userId: {
       "displayName" : "Umut Hazal Koc",
       "email" : "umuthazalkoc@gmail.com",
-      "userType": "personal"  // Kurumsal, Robot, Personal
-      // Firebase Functions ile doldurulacak alan. Otomatik olarak verdiği cevapları toplayacağım.
+      "userType": "Personal"  // Kurumsal, Robot, Personal
+      // Firebase Functions ile doldurulacak alan. 
+      // Otomatik olarak verdiği tüm cevapların adedini toplayacağım.
       'answerCounts' : 7,
-      // Firebase Functions ile doldurulacak alan. Otomatik olarak sorduğu soruları toplayacağım.
+      // Firebase Functions ile doldurulacak alan. 
+      // Otomatik olarak sorduğu soruların adedini toplayacağım.
       'questionCounts' : 7,
       // Firebase Functions ile doldurulacak alan. Toplam arkadaş sayısı.
       'totalFriendsCounts': 123
-      'facebookFriendsCounts':
-      'googleFriendsCounts':
+      // Toplam sahip olduğu harcanmamış token sayısı..
+      // Transactions toplamlarından hesaplanacak
+      // Her transaction geldiğinde Firebase functions ile otomatik olarak update olacak..
+      looqtokens: 27.344
       providers : {
         "googleUid" : "104024371948221004028",
         "facebookUid": "........"
@@ -30,11 +36,13 @@
       waitingAnswers : {
          questionId : {
            'createdAt' : 1489754607671,
-           'finalDateTime':  // Yaratılma zamanından 90 saniye sonra örneğin
+           // Yaratılma zamanından 90 saniye sonra örneğin
+           'finalDateTime': , 
            'viewedBy' : 'FALSE'
            'answered' : 'FALSE'
         }
       },
+      // Kullanıcının dahil olduğu chat akışları
       chatRooms: {
         questionId: {
           chatRoomId: 'TRUE'
@@ -42,16 +50,19 @@
       }
     }
   },
+  // Tüm sorular
   questions: {
     questionId : {
       'askerUserId' : "LTp55GdFgPWiAe8qCXNBZLfrVKC3",
       'content' : "merhaba yeni soru",
       'createdAt' : 1490105946526,
       'status' : "new",   // NEW, WAITING, CLOSED...
-      'type' : "Event",
+      'type' : "Event",   // EVENT, FOOD, SURPRISE.....
+      // Soru hangi lokasyonla ilgili
       location: {
         'latitude' : 41.0082376,
-        'longitude' : 28.97835889999999
+        'longitude' : 28.97835889999999,
+        radius: 12
       }
       // Bu soru hangi kullanıcılara gönderildi. Cevaplar ne durumda.
       waitingAnswers: {
@@ -69,6 +80,7 @@
       }
     },
   },
+  //Chat ile ilgili tüm bilgiler
   chatRooms: {
     questionId : {
       // ChatRoom soruya cevap veren kullanıcı başına açılacak
@@ -90,4 +102,12 @@
       }
     }
   },
+  //Token bilgileri
+  looqtokens: {
+    transactionsId: {
+      fromUserId:
+      toUserId:
+      amount:
+    }
+  }
 }

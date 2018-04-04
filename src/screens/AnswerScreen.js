@@ -50,10 +50,6 @@ class HomeScreen extends Component {
         }
     }
 
-    componentDidMount() {
-    }
-
-
     async findChatRoomForThatAnswer(questionId) {
 
       console.log("Daha önceden yaratılmış bir chatRoom var mı");
@@ -124,13 +120,10 @@ class HomeScreen extends Component {
             status : 'TRUE'
           })
         })
-
       }
     }
 
-
     answerChange = (answer) => {
-      console.log("answer CHANGE");
       this.setState({
         answer: answer
       })

@@ -16,8 +16,8 @@ const store = createStore(
   undefined,
   compose(
     applyMiddleware(
-      thunk //,
-//      logger
+      thunk
+//      ,logger
     )
   )
 )

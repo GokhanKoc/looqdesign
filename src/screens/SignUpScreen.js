@@ -14,6 +14,8 @@ import { ActionCreators } from '../redux/actions'
 
 // FIREBASE RELATED ITEMS
 import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
+import * as routeConstants from '../constants/routeConstants';
+
 
 
 
@@ -22,8 +24,9 @@ class SignUpScreen extends Component {
 
   facebookLogin = () => {
 
+    // Halihazırda bir kullanıcı var mı yok mu?
     if (firebaseAuth.currentUser) {
-      this.props.navigation.navigate('home');
+      this.props.navigation.navigate(routeConstants.ROUTE_HOME);
     } else {
       // No user is signed in.
       this.props.facebookLogin();
@@ -34,8 +37,9 @@ class SignUpScreen extends Component {
   //TODO Google login halledilmeli
   googleLogin = async () => {
 
+    // Halihazırda bir kullanıcı var mı yok mu?
     if (firebaseAuth.currentUser) {
-        this.props.navigation.navigate('home');
+        this.props.navigation.navigate(routeConstants.ROUTE_HOME);
     } else {
         this.props.googleLogin();
     }
@@ -63,16 +67,15 @@ class SignUpScreen extends Component {
 
   onAuthComplete (props) {
     if (props.auth.uid) {
-
       //User registered
       //GET User infos
       firebaseDatabase.ref('users/').child(props.auth.uid).once('value').then( (user) => {
 
-
-        if(user.registered == 'true') {
-          this.props.navigation.navigate('home');
+        //IF User registered before than go to Home page, otherwise go to Register page.
+        if(user.val().registered) {
+          this.props.navigation.navigate(routeConstants.ROUTE_HOME);
         } else {
-          this.props.navigation.navigate('register');
+          this.props.navigation.navigate(routeConstants.ROUTE_REGISTER);
         }
       })
     }

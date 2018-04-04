@@ -64,9 +64,6 @@ class HomeScreen extends Component {
         }
     }
 
-    componentDidMount() {
-    }
-
     askQuestion = () => {
 
       // Kullanıcı var mı kontrolü
@@ -111,8 +108,9 @@ class HomeScreen extends Component {
     // Push mesaj için database trigger ile push gönderilecek firebase üzerinden
     sendQuestionToRandomUser(questionKey,questionOwnerUid) {
 
+      console.log("Soru sorma aşamasına geldi")
       //GET Active Users
-      this.firebaseDatabase.ref('users/').once('value').then( (snapshot) => {
+      firebaseDatabase.ref('users/').once('value').then( (snapshot) => {
         snapshot.forEach( (childSnapshot) => {
 
           //TODO geçici olarak herkese soruyu gönderelim. test amaçlı

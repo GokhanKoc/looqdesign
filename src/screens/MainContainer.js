@@ -15,7 +15,8 @@ import AnswerScreen from '../screens/AnswerScreen';
 import CategorySelectionScreen from '../screens/CategorySelectionScreen';
 
 
-import { TabNavigator, StackNavigator } from 'react-navigation';
+import { TabNavigator } from 'react-navigation';
+
 
 const MainNavigator = TabNavigator ({
   //welcome: { screen: WelcomeScreen },

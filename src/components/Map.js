@@ -68,7 +68,7 @@ class Map extends React.Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
-console.log("ASYNC LOCATION------"+this.props.location.latitude+"-------"+region.latitude+"------")
+    console.log("ASYNC LOCATION------"+this.props.location.latitude+"-------"+region.latitude+"------")
 
     //this.setState({location: region});
     console.log("ASYNC LOCATION FOUND")
@@ -82,6 +82,13 @@ console.log("ASYNC LOCATION------"+this.props.location.latitude+"-------"+region
 
   }
 
+  shouldComponentUpdate(nextProps, nextState){
+    if(this.props.location.latitude === nextProps.location.latitude){
+      return false
+    }else{
+      return true
+    }
+  }
 
   componentWillReceiveProps(nextProps) {
 
