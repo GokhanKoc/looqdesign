@@ -95,13 +95,8 @@ console.log("ASYNC LOCATION------"+this.props.location.latitude+"-------"+region
       this.setState({location: nextProps.location});
     }
   }
-
-
  
   render() {
-
-    console.log("Render")
-
       return (
           <MapView.Animated
             style={{ position: 'absolute', top: 0, left: 0,right: 0,bottom: 0 }}

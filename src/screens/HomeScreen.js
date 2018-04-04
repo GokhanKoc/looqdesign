@@ -35,9 +35,6 @@ let vw = Dimensions.get('window').width /100;
 let vh = Dimensions.get('window').height /100;
 
 
-
-
-
 class HomeScreen extends Component {
 
 
@@ -65,15 +62,10 @@ class HomeScreen extends Component {
           questionType: null,
           selectedIndex: 2
         }
-
     }
-
-
-
 
     componentDidMount() {
     }
-
 
     askQuestion = () => {
 
@@ -295,8 +287,6 @@ class HomeScreen extends Component {
     }
 
     render() {
-
-
         return (
             <View style={styles.container}>
               <Map style={styles.map}/>
@@ -354,8 +344,6 @@ class HomeScreen extends Component {
                 </View>
 
               </View>
-
-
               <View style={styles.questionWrapper}>
                 <View style={styles.predefinedQuestionsWrapper}>
                   <Text style={styles.predefinedQuestionLeft}>
@@ -386,7 +374,6 @@ class HomeScreen extends Component {
             </View>
         );
     }
-
 }
 
 function mapDispatchToProps(dispatch) {
