@@ -37,23 +37,19 @@ class SignUpScreen extends Component {
 
     // Halihazırda bir kullanıcı var mı yok mu?
     if (firebaseAuth.currentUser) {
+
+        // Bir kullanıcı ile login durumunda olunduğundan ana sayfaya yönlendir.
         this.props.navigation.navigate(routeConstants.ROUTE_HOME);
     } else {
         this.props.googleLogin();
     }
-
   }
 
 
   logOut = () => {
 
-    // LOGIN WITH EMAIL
-    console.log("LOGOUT");
-
     firebaseAuth.signOut().then(() => {
-      console.log('Signed Out');
       this.props.dispatchLogOut();
-
     }, function(error) {
       console.log("Logout Failed!", error);
     });

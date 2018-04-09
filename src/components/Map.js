@@ -14,6 +14,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions';
 
+
+const initialRegion = {
+  latitude: 52.52000659954049,
+  longitude: 13.40495377779007,
+  latitudeDelta: LATITUDE_DELTA,
+  longitudeDelta: LONGITUDE_DELTA,
+}
 class Map extends React.Component {
 
   constructor(props) {
@@ -27,7 +34,7 @@ class Map extends React.Component {
         longitudeDelta: LONGITUDE_DELTA
       }
     };
-
+   // this.props.changeLocation(this.state.location);
   }
 
 
@@ -39,13 +46,13 @@ class Map extends React.Component {
         errorMessage: 'Oops, this will not work on Sketch in an Android emulator. Try it on your device!',
       });
     } else {
-      this.props.changeLocation(this.state.location);
       this._getLocationAsync();
     }
   }
 
   onRegionChangeComplete = (region) => {
-    console.log("onRegionChangeComplete");
+    
+    console.log("onRegionChangeComplete...."+region.latitude+"-------"+region.longitude+"------");
 
     //this.setState({location: region});
     this.props.changeLocation(region);
@@ -69,7 +76,8 @@ class Map extends React.Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
-    console.log("ASYNC LOCATION------"+this.props.location.latitude+"-------"+region.latitude+"------")
+    console.log("ASYNC LOCATION LATITUDE------"+this.props.location.latitude+"-------"+region.latitude+"------")
+    console.log("ASYNC LOCATION LONGITUDE------"+this.props.location.longitude+"-------"+region.longitude+"------")
 
     //this.setState({location: region});
     this.props.changeLocation(region);
@@ -121,7 +129,10 @@ class Map extends React.Component {
             mapType="standard"
             showsUserLocation={true}
             onMapReady={this._onMapReady}
-            onRegionChangeComplete={this.onRegionChangeComplete}
+            onRegionChange={ (region) => {
+                  //this.setState({location: region});
+                  this.props.changeLocation(region);
+              }}
           />
         )
     }

@@ -4,13 +4,12 @@ import {
     StyleSheet,
     Text,
     Dimensions,
-    ScrollView,
     Platform,
     View,
     Image,
     TextInput
 } from 'react-native';
-import { Icon, Button,SocialIcon } from 'react-native-elements';
+import { Button } from 'react-native-elements';
 import Map from '../components/Map';
 import SearchLocation from '../components/SearchLocation';
 
@@ -23,12 +22,8 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions';
 
-// FIREBASE RELATED ITEMS
-import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
-
 import * as routeConstants from '../constants/routeConstants';
  
-
 class RegisterScreen extends Component {
 
   static navigationOptions = {
@@ -77,8 +72,6 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
-
-var platformOffset = Platform.OS === 'ios' ? 0 : 10;
 
 const styles = StyleSheet.create({
     scrollView: {

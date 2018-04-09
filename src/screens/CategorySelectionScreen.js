@@ -31,6 +31,8 @@ import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 import { _ } from 'lodash';
 
 import * as constants from '../constants/dataConstants';
+import * as routeConstants from '../constants/routeConstants';
+
 
 class CategorySelectionScreen extends Component {
 
@@ -101,10 +103,7 @@ class CategorySelectionScreen extends Component {
             }
 
         })
-
       }
-
-
     }
 
 
@@ -120,12 +119,13 @@ class CategorySelectionScreen extends Component {
             food: this.state.foodSwitchIsOn
           }
       })
-      this.props.navigation.navigate('home');
+      this.props.navigation.navigate(routeConstants.ROUTE_HOME)
+
     }
 
 
     backToLocationSelect = () => {
-      this.props.navigation.navigate('register')
+      this.props.navigation.navigate(routeConstants.ROUTE_REGISTER)
     }
 
     render() {

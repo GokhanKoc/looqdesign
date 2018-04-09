@@ -114,6 +114,8 @@ const doGoogleLogin = async dispatch => {
 
       let userInfos= await firebaseDatabase.ref('users/').child(user.uid).once('value');
 
+
+      // User has no profile yet
       if(userInfos.val() === null) {
 
         firebaseDatabase.ref('users/').child(user.uid).set({

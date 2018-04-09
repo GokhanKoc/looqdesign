@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import { Icon, Button,SocialIcon, ButtonGroup } from 'react-native-elements';
 import Map from '../components/Map';
+import MapCircle from '../components/MapCircle';
+
 import SearchLocation from '../components/SearchLocation';
 
 import * as constants from '../constants/dataConstants';
