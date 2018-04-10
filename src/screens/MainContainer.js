@@ -30,7 +30,7 @@ const MainNavigator = TabNavigator ({
         categories: { screen: CategorySelectionScreen }
       },{
         navigationOptions: {
-          tabBarVisible: true
+          tabBarVisible: false
         },
         lazy: true,
       }

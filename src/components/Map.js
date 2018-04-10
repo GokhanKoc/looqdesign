@@ -14,18 +14,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { ActionCreators } from '../redux/actions';
 
-
-const initialRegion = {
-  latitude: 52.52000659954049,
-  longitude: 13.40495377779007,
-  latitudeDelta: LATITUDE_DELTA,
-  longitudeDelta: LONGITUDE_DELTA,
-}
 class Map extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
+     this.state = {
       errorMessage: null,
       location: {
         latitude: 52.52000659954049,
@@ -33,8 +26,8 @@ class Map extends React.Component {
         latitudeDelta: LATITUDE_DELTA,
         longitudeDelta: LONGITUDE_DELTA
       }
-    };
-   // this.props.changeLocation(this.state.location);
+     };
+    // this.props.changeLocation(this.state.location);
   }
 
 
@@ -76,8 +69,8 @@ class Map extends React.Component {
       latitudeDelta: LATITUDE_DELTA,
       longitudeDelta: LONGITUDE_DELTA
     }
-    console.log("ASYNC LOCATION LATITUDE------"+this.props.location.latitude+"-------"+region.latitude+"------")
-    console.log("ASYNC LOCATION LONGITUDE------"+this.props.location.longitude+"-------"+region.longitude+"------")
+    //console.log("ASYNC LOCATION LATITUDE------"+this.props.location.latitude+"-------"+region.latitude+"------")
+    //console.log("ASYNC LOCATION LONGITUDE------"+this.props.location.longitude+"-------"+region.longitude+"------")
 
     //this.setState({location: region});
     this.props.changeLocation(region);
@@ -119,11 +112,11 @@ class Map extends React.Component {
   render() {
 
       console.log("MAP RERENDERED")
-      console.log("RENDER LOCATION------"+this.state.location.latitude+"-------"+this.state.location.longitude+"------")
+      //console.log("RENDER LOCATION------"+this.state.location.latitude+"-------"+this.state.location.longitude+"------")
       return (
           <MapView.Animated
             style={{ position: 'absolute', top: 0, left: 0,right: 0,bottom: 0 }}
-            region={this.state.location}
+            region={this.props.location}
             customMapStyle={mapStyle}
             provider="google"
             mapType="standard"
@@ -143,7 +136,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 function mapStateToProps(state) {
-  return { location: state.location };
+    return { location: state.location };
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Map);
