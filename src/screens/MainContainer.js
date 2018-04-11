@@ -12,7 +12,6 @@ import SettingsScreen from '../screens/SettingsScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import AnswerScreen from '../screens/AnswerScreen';
-import CategorySelectionScreen from '../screens/CategorySelectionScreen';
 
 
 import { TabNavigator } from 'react-navigation';
@@ -26,8 +25,7 @@ const MainNavigator = TabNavigator ({
         home: { screen: HomeScreen },
         settings: { screen: SettingsScreen },
         answer: { screen: AnswerScreen },
-        register: { screen: RegisterScreen },
-        categories: { screen: CategorySelectionScreen }
+        register: { screen: RegisterScreen }
       },{
         navigationOptions: {
           tabBarVisible: false

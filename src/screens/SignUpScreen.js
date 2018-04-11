@@ -15,9 +15,27 @@ import { ActionCreators } from '../redux/actions'
 // FIREBASE RELATED ITEMS
 import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 import * as routeConstants from '../constants/routeConstants';
+import * as dataConstants from '../constants/dataConstants';
+import * as firebaseDbConstants from '../constants/firebaseDbConstants';
 
+
+import { _ } from 'lodash';
 
 class SignUpScreen extends Component {
+
+
+  componentWillMount() {
+
+    // Login durumda olan kullanıcı var mı kontrolü
+    // Eğer yoksa kullanıcıyı signup sayfasına yönlendirecek.
+    if(!_.isEmpty(this.props.auth)) {
+
+      // Kullanıcı daha önce Facebook veya Google ile giriş yapmış demektir.
+      this.props.navigation.navigate(routeConstants.HOME)
+    }
+
+  }
+
 
 
   facebookLogin = () => {
@@ -37,7 +55,6 @@ class SignUpScreen extends Component {
 
     // Halihazırda bir kullanıcı var mı yok mu?
     if (firebaseAuth.currentUser) {
-
         // Bir kullanıcı ile login durumunda olunduğundan ana sayfaya yönlendir.
         this.props.navigation.navigate(routeConstants.ROUTE_HOME);
     } else {
@@ -63,13 +80,14 @@ class SignUpScreen extends Component {
     if (props.auth.uid) {
       //User registered
       //GET User infos
-      firebaseDatabase.ref('users/').child(props.auth.uid).once('value').then( (user) => {
+      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/').child(props.auth.uid).once('value').then( (user) => {
 
-        //IF User registered before than go to Home page, otherwise go to Register page.
-        if(user.val().registered) {
+        if(user.val().status === dataConstants.USER_REGISTERED_COMPLETE) {
+          // Kullanıcı daha önce kayıt sürecini tamamlamıştır.
           this.props.navigation.navigate(routeConstants.ROUTE_HOME);
         } else {
-          this.props.navigation.navigate(routeConstants.ROUTE_REGISTER);
+          // Kullanıcı daha önce kayıt sürecini tamamlamamıştır.
+          this.props.navigation.navigate(routeConstants.ROUTE_REGISTER); 
         }
       })
     }

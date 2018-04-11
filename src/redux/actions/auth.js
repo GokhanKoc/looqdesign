@@ -1,7 +1,9 @@
 
 import { Facebook, Google } from 'expo';
 import firebase, { firebaseAuth, firebaseDatabase } from '../../firebase/firebase';
-import * as constants from '../../constants/dataConstants';
+import * as firebaseDbConstants from '../../constants/firebaseDbConstants';
+import * as expoConstants from '../../constants/expoConstants';
+import * as dataConstants from '../../constants/dataConstants';
 
 
 import {
@@ -14,25 +16,12 @@ import {
   USER_LOGOUT
 } from './types';
 
-
-/**
-Redux thunk sayesinde action fonksiyonlarını aşağıdaki gibi yazabiliriz.
-export const logout = (my_params) => (dispatch) => {
-  dispatch({type: ‘APP_LOGOUT_STARTED’});
-  // do your async stuff (ie: network calls)
-  // in some callback, you can keep dispatching:
-  dispatch({type: ‘APP_LOGOUT_ENDED’})
-}
-*/
-
-
-
 export const facebookLogin = () => async dispatch => {
     doFacebookLogin(dispatch);
 };
 
 const doFacebookLogin = async dispatch => {
-  let { type, token } = await Facebook.logInWithReadPermissionsAsync('865641106891961', {
+  let { type, token } = await Facebook.logInWithReadPermissionsAsync(expoConstants.EXPO_FACEBOOK_PERMISSION_APP_ID, {
     permissions: ['public_profile']
   });
 
@@ -43,25 +32,25 @@ const doFacebookLogin = async dispatch => {
   if (type === 'success') {
     // Build Firebase credential with the Facebook access token.
     const credential = firebase.auth.FacebookAuthProvider.credential(token);
-    console.log("CREDENTIAL"+credential);
 
     // Sign in with credential from the Facebook user.
     firebaseAuth.signInWithCredential(credential).then((user) => {
 
 
       if(!checkUserIfRegister(user.uid)) {
+
         firebaseDatabase.ref('users/').child(user.uid).set({
-          registered: false,
-          email: user.email,
-          displayName: user.displayName,
-          photoURL: user.photoURL,
-          categories: {
-            fun: true,
-            surprise: true,
-            event: true,
-            hotel: true,
-            food: true
-          }
+          [ firebaseDbConstants.FIREBASE_DB_USER_STATUS ]       : false,
+          [ firebaseDbConstants.FIREBASE_DB_USER_EMAIL]         : user.email, 
+          [ firebaseDbConstants.FIREBASE_DB_USER_DISPLAY_NAME]  : user.displayName, 
+          [ firebaseDbConstants.FIREBASE_DB_USER_PHOTO_URL]     : user.photoURL, 
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORIES]    : {
+            [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_FUN]        : true,
+            [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_SURPRISE]   : true,
+            [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_EVENT]      : true,
+            [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_HOTEL]      : true,
+            [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_FOOD]       : true
+          } 
         })
       }
       return dispatch({ type: FACEBOOK_LOGIN_SUCCESS, payload: user });
@@ -84,7 +73,6 @@ checkUserIfRegister = (uid) => {
 }
 
 
-
 export const googleLogin = () => async dispatch => {
     doGoogleLogin(dispatch);
 };
@@ -95,8 +83,8 @@ const doGoogleLogin = async dispatch => {
   try {
 
     const result = await Google.logInAsync({
-           androidClientId: '672453373918-7p5q8m628oiqmqjlg1k60h9e9g5itf12.apps.googleusercontent.com',
-           iosClientId: '672453373918-vbbu7fk0ovu2vsn0pj54mkl2o9a0nj59.apps.googleusercontent.com',
+           androidClientId: expoConstants.EXPO_ANDROID_CLIENT_ID,
+           iosClientId: expoConstants.EXPO_IOS_CLIENT_ID,
            scopes: ['profile', 'email'],
          });
 
@@ -113,23 +101,22 @@ const doGoogleLogin = async dispatch => {
       let user = await firebaseAuth.signInWithCredential(credential);
 
       let userInfos= await firebaseDatabase.ref('users/').child(user.uid).once('value');
-
-
+      
       // User has no profile yet
-      if(userInfos.val() === null) {
+      if( userInfos.val() === null ) {
 
-        firebaseDatabase.ref('users/').child(user.uid).set({
-            registered: false,
-            email: user.email,
-            displayName: user.displayName,
-            photoURL: user.photoURL,
-            categories: {
-              fun: true,
-              surprise: true,
-              event: true,
-              hotel: true,
-              food: true
-            }
+        firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/').child(user.uid).set({
+            [ firebaseDbConstants.FIREBASE_DB_USER_STATUS ]       : dataConstants.USER_NEW_USER,
+            [ firebaseDbConstants.FIREBASE_DB_USER_EMAIL]         : user.email, 
+            [ firebaseDbConstants.FIREBASE_DB_USER_DISPLAY_NAME]  : user.displayName, 
+            [ firebaseDbConstants.FIREBASE_DB_USER_PHOTO_URL]     : user.photoURL, 
+            [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORIES]    : {
+              [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_FUN]        : true,
+              [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_SURPRISE]   : true,
+              [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_EVENT]      : true,
+              [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_HOTEL]      : true,
+              [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_FOOD]       : true
+            } 
           })
       }
       return dispatch({ type: GOOGLE_LOGIN_SUCCESS, payload: user });

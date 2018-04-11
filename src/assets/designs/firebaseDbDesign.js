@@ -3,12 +3,13 @@
   users: {
     //Otomatik yaratılan unique bir Id
     userId: {
-      "displayName" : "Umut Hazal Koc",
-      "email" : "umuthazalkoc@gmail.com",
-      "userType": "Personal"  // Kurumsal, Robot, Personal
+      displayName : "Umut Hazal Koc",
+      email : "umuthazalkoc@gmail.com",
+      status: 'USER_REGISTERED_COMPLETE'   // Veya diğer durumlar...
+      userType: "Personal"  // Kurumsal, Robot, Personal
       // Firebase Functions ile doldurulacak alan. 
       // Otomatik olarak verdiği tüm cevapların adedini toplayacağım.
-      'answerCounts' : 7,
+      answerCounts : 7,
       // Firebase Functions ile doldurulacak alan. 
       // Otomatik olarak sorduğu soruların adedini toplayacağım.
       'questionCounts' : 7,
@@ -18,6 +19,13 @@
       // Transactions toplamlarından hesaplanacak
       // Her transaction geldiğinde Firebase functions ile otomatik olarak update olacak..
       looqtokens: 27.344
+      categories: {
+          "event" : true,
+          "food" : false,
+          "fun" : false,
+          "hotel" : false,
+          "surprise" : true
+      }
       providers : {
         "googleUid" : "104024371948221004028",
         "facebookUid": "........"
