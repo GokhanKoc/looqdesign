@@ -29,6 +29,7 @@ export const FIREBASE_DB_QUESTION_TYPE          ='type'
 export const FIREBASE_DB_QUESTION_OWNER_ID      ='owner_id'
 export const FIREBASE_DB_QUESTION_CONTENT       ='content'
 export const FIREBASE_DB_QUESTION_CREATED_AT    ='created_at'
+export const FIREBASE_DB_QUESTION_CREATED_AT_FORMATTED    ='created_at_formatted'
 export const FIREBASE_DB_QUESTION_DEADLINE      ='deadline'
 export const FIREBASE_DB_QUESTION_VIEWED_BY     ='viewed_by'
 export const FIREBASE_DB_QUESTION_ANSWERED      ='answered'
@@ -46,4 +47,9 @@ export const FIREBASE_DB_QUESTION_CATEGORY_SURPRISE     ='surprise'
 
 // ANSWERS
 export const FIREBASE_DB_ANSWERS                ='question_radius'
+export const FIREBASE_DB_WAITING_ANSWERS        ='waiting_answers'
+export const FIREBASE_DB_ANSWER_CREATED_AT      ='created_at'
+export const FIREBASE_DB_ANSWER_VIEWED_BY       ='viewed_by'
+export const FIREBASE_DB_ANSWER_STATUS           ='status'
+
 

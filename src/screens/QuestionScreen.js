@@ -35,6 +35,9 @@ var moment = require('moment');
 let vw = Dimensions.get('window').width /100;
 let vh = Dimensions.get('window').height /100;
 
+import * as firebaseDbConstants from '../constants/firebaseDbConstants';
+import * as dataConstants from '../constants/dataConstants';
+
 
 class QuestionScreen extends Component {
 
@@ -67,39 +70,42 @@ class QuestionScreen extends Component {
 
     askQuestion = () => {
 
-      // Kullanıcı var mı kontrolü
-      if(!_.isEmpty(this.props.auth)) {
+
+      //KULLANICI YOKSA BURDA NE ISIN VAR :)
+      if(_.isEmpty(this.props.auth)) {
+        this.props.navigation.navigate(routeConstants.ROUTE_SIGN_UP)
+      }
 
         var userUid = this.props.auth.uid
+
         // insert question infos into QUESTIONS table
-        var question = firebaseDatabase.ref('questions/').push();
+        var question = firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/').push();
 
         var dateTime = firebase.database.ServerValue.TIMESTAMP
+
         // New question created....
         question.set({
-                askerUserId: userUid,
-                content: this.state.question,
-                location: this.props.location,
-                createdAt: dateTime,
-                createdAt2: moment(dateTime).format('DD MMMM YYYY, h:mm:ss a'),
-                status: constants.QUESTION_STATUS_NEW,
-                type: this.state.questionType
-
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_OWNER_ID ] : userUid,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CONTENT ]  : this.state.question,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_LOC_LATITUDE ]  : this.props.location.latitude,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_LOC_LONGITUDE ] : this.props.location.longitude,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CREATED_AT ] : dateTime,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CREATED_AT_FORMATTED ] : moment(dateTime).format('DD MMMM YYYY, h:mm:ss a'),
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_STATUS ] : constants.QUESTION_STATUS_NEW, 
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_TYPE ] : this.state.questionType
         });
 
         // insert questions infos into USERS table
-        firebaseDatabase.ref('users/' + userUid).child('questions/').child(question.key).set("TRUE");
+        firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/' + userUid)
+                        .child(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/')
+                        .child(question.key)
+                        .set("TRUE");
 
         // SEND Question to other users..
         this.sendQuestionToRandomUser(question.key,userUid);
 
 
         //this.giveAnswerToQuestion(question.key);
-
-      } else {
-        console.log("KULLANICI OLMADAN KAYIT ATILAMAZ")
-      }
-
     }
 
 
@@ -109,9 +115,8 @@ class QuestionScreen extends Component {
     // Push mesaj için database trigger ile push gönderilecek firebase üzerinden
     sendQuestionToRandomUser(questionKey,questionOwnerUid) {
 
-      console.log("Soru sorma aşamasına geldi")
       //GET Active Users
-      firebaseDatabase.ref('users/').once('value').then( (snapshot) => {
+      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/').once('value').then( (snapshot) => {
         snapshot.forEach( (childSnapshot) => {
 
           //TODO geçici olarak herkese soruyu gönderelim. test amaçlı
@@ -128,19 +133,28 @@ class QuestionScreen extends Component {
 
     // İlgili soruyu belirlenen kullanıcılara gönder
     sendQuestion(questionUid,answerUserUid) {
+
+      var dateTime = firebase.database.ServerValue.TIMESTAMP
+
       // Seçilen kullanıcılara soru gönderilmeli ve ayrıca bu kullanıcılara notification iletmeliyiz..
       // Firebase notification kullanılabilir...
-      firebaseDatabase.ref('users/' + answerUserUid).child('waitingAnswers/').child(questionUid).set({
-              createdAt: firebase.database.ServerValue.TIMESTAMP,
-              status: constants.ANSWER_STATUS_WAITING,
-              viewedBy: "FALSE"
+      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/' + answerUserUid)
+                      .child(firebaseDbConstants.FIREBASE_DB_WAITING_ANSWERS+'/')
+                      .child(questionUid)
+                      .set({
+                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_CREATED_AT ] : dateTime,
+                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_STATUS ]     : constants.ANSWER_STATUS_WAITING,
+                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_VIEWED_BY ]  :'FALSE' 
       });
 
       //Soru domain içerisine de kimlerden cevap beklendiği bilgisini işle.
-      firebaseDatabase.ref('questions/' + questionUid).child('waitingAnswers/').child(answerUserUid).set({
-              createdAt: firebase.database.ServerValue.TIMESTAMP,
-              status: constants.ANSWER_STATUS_WAITING,
-              viewedBy: "FALSE"
+      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/' + questionUid)
+                      .child(firebaseDbConstants.FIREBASE_DB_WAITING_ANSWERS+'/')
+                      .child(answerUserUid)
+                      .set({
+                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_CREATED_AT ] : dateTime,
+                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_STATUS ]     : constants.ANSWER_STATUS_WAITING,
+                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_VIEWED_BY ]  :'FALSE' 
       });
 
     }
