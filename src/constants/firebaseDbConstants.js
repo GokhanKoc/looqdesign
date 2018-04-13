@@ -37,11 +37,11 @@ export const FIREBASE_DB_QUESTION_LOC_LONGITUDE ='question_longitude'
 export const FIREBASE_DB_QUESTION_LOC_RADIUS    ='question_radius'
 
 export const FIREBASE_DB_QUESTION_CATEGORIES            ='categories'
-export const FIREBASE_DB_QUESTION_CATEGORY_EVENT        ='category_event'
-export const FIREBASE_DB_QUESTION_CATEGORY_FOOD         ='category_food'
-export const FIREBASE_DB_QUESTION_CATEGORY_FUN          ='category_fun'
-export const FIREBASE_DB_QUESTION_CATEGORY_HOTEL        ='category_hotel'
-export const FIREBASE_DB_QUESTION_CATEGORY_SURPRISE     ='category_surprise'
+export const FIREBASE_DB_QUESTION_CATEGORY_EVENT        ='event'
+export const FIREBASE_DB_QUESTION_CATEGORY_FOOD         ='food'
+export const FIREBASE_DB_QUESTION_CATEGORY_FUN          ='fun'
+export const FIREBASE_DB_QUESTION_CATEGORY_HOTEL        ='hotel'
+export const FIREBASE_DB_QUESTION_CATEGORY_SURPRISE     ='surprise'
 
 
 // ANSWERS

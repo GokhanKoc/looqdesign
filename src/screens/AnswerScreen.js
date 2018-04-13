@@ -29,7 +29,7 @@ import firebase,{ firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 import { _ } from 'lodash';
 var moment = require('moment');
 
-class HomeScreen extends Component {
+class AnswerScreen extends Component {
 
   static navigationOptions = {
     title: 'Answer',
@@ -169,7 +169,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AnswerScreen);
 
 var platformOffset = Platform.OS === 'ios' ? 0 : 10;
 
@@ -206,25 +206,6 @@ const styles = StyleSheet.create({
         top: 0,
         left: 5,
         right: 5
-    },
-    input: {
-        height: 36,
-        padding: 10,
-        marginTop: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        fontSize: 18,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: '#48BBEC',
-        backgroundColor: 'white'
-    },
-    buttonAsk: {
-        position: 'absolute',
-        borderRadius: 100,
-        marginBottom: 150,
-        marginLeft: 10,
-        marginRight: 10
     },
     buttonAnswer: {
         position: 'absolute',

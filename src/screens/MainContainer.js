@@ -4,10 +4,11 @@ import {
     StyleSheet
 } from 'react-native';
 
+import {firebaseAuth } from '../firebase/firebase';
 
 
 import WelcomeScreen from '../screens/WelcomeScreen';
-import HomeScreen from '../screens/HomeScreen';
+import QuestionScreen from '../screens/QuestionScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import RegisterScreen from '../screens/RegisterScreen';
@@ -22,7 +23,7 @@ const MainNavigator = TabNavigator ({
   signup: { screen: SignUpScreen },
   main: {
       screen: TabNavigator({
-        home: { screen: HomeScreen },
+        question: { screen: QuestionScreen },
         settings: { screen: SettingsScreen },
         answer: { screen: AnswerScreen },
         register: { screen: RegisterScreen }
@@ -43,10 +44,6 @@ const MainNavigator = TabNavigator ({
 
 export default class MainContainer extends Component {
 
-    constructor(props) {
-      super(props);
-    }
-
     render() {
         return (
           <View style={styles.container}>
@@ -63,33 +60,5 @@ export default class MainContainer extends Component {
           justifyContent: 'center',
           alignItems: 'stretch',
           backgroundColor: '#F5FCFF'
-      },
-      map: {
-          flex: 1,
-          width: null,
-          height: null,
-      },
-      dots: {
-          width: 20,
-          height: 20
-      },
-      searchInputView: {
-          backgroundColor: 'rgba(0,0,0,0)',
-          position: 'absolute',
-          top: 0,
-          left: 5,
-          right: 5
-      },
-      searchInput: {
-          height: 36,
-          padding: 10,
-          marginTop: 20,
-          marginLeft: 10,
-          marginRight: 10,
-          fontSize: 18,
-          borderWidth: 1,
-          borderRadius: 10,
-          borderColor: '#48BBEC',
-          backgroundColor: 'white'
       }
   });

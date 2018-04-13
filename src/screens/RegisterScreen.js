@@ -12,7 +12,6 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import Map from '../components/Map';
-import SearchLocation from '../components/SearchLocation';
 
 const { width, height } = Dimensions.get('window');
 
@@ -30,7 +29,7 @@ import * as dataConstants from '../constants/dataConstants';
 
 import { _ } from 'lodash';
 
-import { firebaseAuth,firebaseDatabase } from '../firebase/firebase';
+import {firebaseDatabase, firebaseAuth } from '../firebase/firebase';
 
 /**
  * USER signup with Google or Facebook 
@@ -81,26 +80,28 @@ class RegisterScreen extends Component {
       // Kullanıcı daha önce kayıt işlemini tamamlamış.
       // Değişiklik yapmak isterse profil sayfasından yapmalı
       if ( user.status === dataConstants.USER_REGISTERED_COMPLETE) {
-        this.props.navigation.navigate(routeConstants.ROUTE_HOME)
+        this.props.navigation.navigate(routeConstants.ROUTE_QUESTION)
       }
 
       //Find User Status
       if(user.status === dataConstants.USER_REGION_SELECTED) {
         // Kullanıcı bölge seçmiş ama kategori seçmemiş demektir.
         // Kullanıcının kategori seçmesi sağlanmalı.
-        console.log("USER STATUS  =......"+dataConstants.USER_REGION_SELECTED)
         this.setState({ userIsOnCategory: true})
       } 
 
 
+
         var categories = snapshot.val().categories;
 
+        if(categories) {
           if(categories.event) {
+            console.log("EVENT SWITCH ON TRUE")
             this.setState({ eventSwitchIsOn: true })
           } else {
+            console.log("EVENT SWITCH ON FALSE"+categories.event)
             this.setState({ eventSwitchIsOn: false })
           }
-
 
           if(categories.food) {
             this.setState({ foodSwitchIsOn: true })
@@ -128,24 +129,32 @@ class RegisterScreen extends Component {
           } else {
             this.setState({ surpriseSwitchIsOn: false })
           }
-
+        }
       })
   }
 
 
     register = () => {
 
-      firebaseDatabase.ref('users/').child(this.props.auth.uid).update({
-          registered: true,
-          categories: {
-            fun: this.state.funSwitchIsOn,
-            surprise: this.state.surpriseSwitchIsOn,
-            event: this.state.eventSwitchIsOn,
-            hotel: this.state.hotelSwitchIsOn,
-            food: this.state.foodSwitchIsOn
-          }
+      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/').child(this.props.auth.uid).update({
+        [ firebaseDbConstants.FIREBASE_DB_USER_STATUS ]       : dataConstants.USER_REGISTERED_COMPLETE,
+        [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORIES]    : {
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_FUN]        : this.state.funSwitchIsOn,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_SURPRISE]   : this.state.surpriseSwitchIsOn,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_EVENT]      : this.state.eventSwitchIsOn,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_HOTEL]      : this.state.hotelSwitchIsOn,
+          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CATEGORY_FOOD]       : this.state.foodSwitchIsOn
+        } 
       })
-      this.props.navigation.navigate(routeConstants.ROUTE_HOME)
+      this.props.navigation.navigate(routeConstants.ROUTE_QUESTION)
+    }
+
+    locationSelection = () => {
+
+      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/').child(this.props.auth.uid).update({
+        [ firebaseDbConstants.FIREBASE_DB_USER_STATUS ]       : dataConstants.USER_REGION_SELECTED,
+      })
+      this.setState({ userIsOnCategory: true})
     }
 
 
@@ -154,25 +163,15 @@ class RegisterScreen extends Component {
 
           <View style={styles.container}>
               <Map style={styles.map}/>
-
               {this.displayJsxMessage()}
-
-              <View style={styles.buttonWrapper}>
-                <Button
-                  buttonStyle={styles.buttonRegister}
-                  title='OK'
-                  onPress={this.register}
-                />
-              </View>
-            </View>
+          </View>
         );
     }
               
     displayJsxMessage() {
       if (this.state.userIsOnCategory) {
-
-          console.log("CATEGORY ALANINA GELMIS OLMALI")
           return (
+            <View>
               <View style={styles.categoryWrapper}>
                 <View style={styles.categoryTopTextView}>
                   <Text style={styles.categoryTopText}> I can answer about</Text>
@@ -229,9 +228,26 @@ class RegisterScreen extends Component {
                   <Text style={styles.categoryBottomText}> in this area</Text>
                 </View>
               </View>
+
+              <View style={styles.buttonWrapper}>
+                <Button
+                  buttonStyle={styles.buttonRegister}
+                  title='OK'
+                  onPress={this.register}
+                />
+              </View>
+            </View>
           );
       } else {
-          return <Text> Goodbye, JSX! </Text>;
+             return (
+              <View style={styles.buttonWrapper}>
+                <Button
+                  buttonStyle={styles.buttonRegister}
+                  title='CATEGORY'
+                  onPress={this.locationSelection}
+                />
+              </View>
+             )
       }
     }
 
@@ -251,15 +267,10 @@ function mapStateToProps(state) {
 export default connect(mapStateToProps, mapDispatchToProps)(RegisterScreen);
 
 const styles = StyleSheet.create({
-  scrollView: {
-      flex: 1,
-      marginBottom: 50
-  },
   container: {
       flex: 1,
       justifyContent: 'center',
       alignItems: 'stretch'
-      //backgroundColor: '#F5FCFF'
   },
   map: {
       flex: 1,
@@ -269,32 +280,6 @@ const styles = StyleSheet.create({
   dots: {
       width: 20,
       height: 20
-  },
-  inputView: {
-      backgroundColor: 'rgba(0,0,0,0)',
-      position: 'absolute',
-      top: 0,
-      left: 5,
-      right: 5
-  },
-  searchInputView: {
-      backgroundColor: 'rgba(0,0,0,0)',
-      position: 'absolute',
-      top: 0,
-      left: 5,
-      right: 5
-  },
-  input: {
-      height: 36,
-      padding: 10,
-      marginTop: 20,
-      marginLeft: 10,
-      marginRight: 10,
-      fontSize: 18,
-      borderWidth: 1,
-      borderRadius: 10,
-      borderColor: '#48BBEC',
-      backgroundColor: 'white'
   },
   categoryWrapper: {
     position: 'absolute',
@@ -359,18 +344,5 @@ const styles = StyleSheet.create({
       backgroundColor: '#FF3366',
       width: 12*vh,
       height: 12*vh
-  },
-  buttonBackWrapper: {
-    position: 'absolute',
-    bottom: 5*vh
-  },
-  buttonBack: {
-      position: 'relative',
-      borderRadius: 100,
-      left: (width/2)-(16*vh),
-      backgroundColor: '#ccc',
-      //margin-left: -17vh;
-      width: 8*vh,
-      height: 8*vh
   }
 });

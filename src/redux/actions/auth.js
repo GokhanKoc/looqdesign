@@ -40,7 +40,7 @@ const doFacebookLogin = async dispatch => {
       if(!checkUserIfRegister(user.uid)) {
 
         firebaseDatabase.ref('users/').child(user.uid).set({
-          [ firebaseDbConstants.FIREBASE_DB_USER_STATUS ]       : false,
+          [ firebaseDbConstants.FIREBASE_DB_USER_STATUS ]       : dataConstants.USER_NEW_USER,
           [ firebaseDbConstants.FIREBASE_DB_USER_EMAIL]         : user.email, 
           [ firebaseDbConstants.FIREBASE_DB_USER_DISPLAY_NAME]  : user.displayName, 
           [ firebaseDbConstants.FIREBASE_DB_USER_PHOTO_URL]     : user.photoURL, 

@@ -42,7 +42,7 @@ class SignUpScreen extends Component {
 
     // Halihazırda bir kullanıcı var mı yok mu?
     if (firebaseAuth.currentUser) {
-      this.props.navigation.navigate(routeConstants.ROUTE_HOME);
+      this.props.navigation.navigate(routeConstants.ROUTE_QUESTION);
     } else {
       // No user is signed in.
       this.props.facebookLogin();
@@ -56,7 +56,7 @@ class SignUpScreen extends Component {
     // Halihazırda bir kullanıcı var mı yok mu?
     if (firebaseAuth.currentUser) {
         // Bir kullanıcı ile login durumunda olunduğundan ana sayfaya yönlendir.
-        this.props.navigation.navigate(routeConstants.ROUTE_HOME);
+        this.props.navigation.navigate(routeConstants.ROUTE_QUESTION);
     } else {
         this.props.googleLogin();
     }
@@ -84,7 +84,7 @@ class SignUpScreen extends Component {
 
         if(user.val().status === dataConstants.USER_REGISTERED_COMPLETE) {
           // Kullanıcı daha önce kayıt sürecini tamamlamıştır.
-          this.props.navigation.navigate(routeConstants.ROUTE_HOME);
+          this.props.navigation.navigate(routeConstants.ROUTE_QUESTION);
         } else {
           // Kullanıcı daha önce kayıt sürecini tamamlamamıştır.
           this.props.navigation.navigate(routeConstants.ROUTE_REGISTER); 
@@ -167,15 +167,6 @@ const styles = StyleSheet.create({
         margin: 20,
         marginBottom: 80
     },
-    input: {
-        fontSize: 20,
-        height: 60,
-        borderColor: 'gray',
-        borderWidth: 1,
-        margin: 10,
-        backgroundColor: "#EEE",
-        borderRadius: 5
-    },
     loginButton: {
         backgroundColor: "#FFC107",
         borderWidth: 0
@@ -189,25 +180,5 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         margin: 10
-    },
-    separationContainer: {
-        flexDirection: 'row',
-        height: 20,
-        margin: 10,
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    divider: {
-        height: 1,
-        width: 30,
-        borderBottomWidth: 1
-    },
-    dividerCenter: {
-        marginLeft: 5,
-        marginRight: 5
-    },
-    dividerText: {
-        fontWeight: 'bold',
-        fontSize: 20
     }
 });

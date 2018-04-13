@@ -1,5 +1,5 @@
 import WelcomeScreen from '../screens/WelcomeScreen';
-import HomeScreen from '../screens/HomeScreen';
+import QuestionScreen from '../screens/QuestionScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import AskQuestionScreen from '../screens/AskQuestionScreen';
@@ -13,7 +13,7 @@ export const MainNavigator = TabNavigator ({
   signup: { screen: SignUpScreen },
   main: {
       screen: TabNavigator({
-        home: { screen: HomeScreen },
+        home: { screen: QuestionScreen },
         settings: { screen: SettingsScreen },
         question: { screen: AskQuestionScreen }
       }, {

@@ -5,7 +5,6 @@ import {
     Text,
     TouchableOpacity,
     Dimensions,
-    ScrollView,
     Platform,
     View,
     Image,
@@ -37,7 +36,7 @@ let vw = Dimensions.get('window').width /100;
 let vh = Dimensions.get('window').height /100;
 
 
-class HomeScreen extends Component {
+class QuestionScreen extends Component {
 
 
   static navigationOptions = {
@@ -288,9 +287,6 @@ class HomeScreen extends Component {
         return (
             <View style={styles.container}>
               <Map style={styles.map}/>
-              <View style={styles.searchInputView}>
-                <SearchLocation />
-              </View>
               <View style={styles.categoryWrapper}>
                 <View style={styles.categoryListWrapper}>
 
@@ -385,7 +381,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(HomeScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(QuestionScreen);
 
 var platformOffset = Platform.OS === 'ios' ? 0 : 10;
 
@@ -404,25 +400,6 @@ const styles = StyleSheet.create({
     dots: {
         width: 20,
         height: 20
-    },
-    searchInputView: {
-        backgroundColor: 'rgba(0,0,0,0)',
-        position: 'absolute',
-        top: 0,
-        left: 5,
-        right: 5
-    },
-    searchInput: {
-        height: 36,
-        padding: 10,
-        marginTop: 20,
-        marginLeft: 10,
-        marginRight: 10,
-        fontSize: 18,
-        borderWidth: 1,
-        borderRadius: 10,
-        borderColor: '#48BBEC',
-        backgroundColor: 'white'
     },
     questionWrapper: {
         position: 'absolute',
