@@ -41,13 +41,7 @@ import {firebaseDatabase, firebaseAuth } from '../firebase/firebase';
 class RegisterScreen extends Component {
 
   static navigationOptions = {
-    title: 'Register',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/iconset_dots.png')}
-        style={[styles.dots, {tintColor: tintColor}]}
-      />
-    )
+    title: 'Register'
   }
 
   constructor(props){
@@ -276,10 +270,6 @@ const styles = StyleSheet.create({
       flex: 1,
       width: null,
       height: null,
-  },
-  dots: {
-      width: 20,
-      height: 20
   },
   categoryWrapper: {
     position: 'absolute',

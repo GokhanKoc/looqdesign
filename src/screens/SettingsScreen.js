@@ -3,25 +3,15 @@ import React, { Component } from 'react';
 import {
     StyleSheet,
     Text,
-    TouchableOpacity,
     Dimensions,
-    ScrollView,
-    Platform,
-    View,
-    Image
+    View
 } from 'react-native';
 
 
 export default class SettingsScreen extends Component {
 
   static navigationOptions = {
-    title: 'Settings',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/iconset_burger.png')}
-        style={[styles.burger, {tintColor: tintColor}]}
-      />
-    )
+    title: 'Settings'
   }
 
     render() {

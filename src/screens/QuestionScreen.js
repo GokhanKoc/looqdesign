@@ -43,13 +43,7 @@ class QuestionScreen extends Component {
 
 
   static navigationOptions = {
-    title: 'AskQuestion',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/iconset_dots.png')}
-        style={[styles.dots, {tintColor: tintColor}]}
-      />
-    )
+    title: 'AskQuestion'
   }
 
     constructor(props){
@@ -397,8 +391,6 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(QuestionScreen);
 
-var platformOffset = Platform.OS === 'ios' ? 0 : 10;
-
 const styles = StyleSheet.create({
     container: {
         flex: 1,
@@ -410,10 +402,6 @@ const styles = StyleSheet.create({
         flex: 1,
         width: null,
         height: null,
-    },
-    dots: {
-        width: 20,
-        height: 20
     },
     questionWrapper: {
         position: 'absolute',

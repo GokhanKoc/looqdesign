@@ -5,7 +5,6 @@ import {
     Text,
     TouchableOpacity,
     Dimensions,
-    ScrollView,
     Platform,
     View,
     Image,
@@ -26,19 +25,15 @@ import { ActionCreators } from '../redux/actions'
 // FIREBASE RELATED ITEMS
 import firebase,{ firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 
+import * as firebaseDbConstants from '../constants/firebaseDbConstants';
+
 import { _ } from 'lodash';
 var moment = require('moment');
 
 class AnswerScreen extends Component {
 
   static navigationOptions = {
-    title: 'Answer',
-    tabBarIcon: ({ tintColor }) => (
-      <Image
-        source={require('../assets/images/iconset_dots.png')}
-        style={[styles.dots, {tintColor: tintColor}]}
-      />
-    )
+    title: 'Answer'
   }
 
     constructor(props){
@@ -52,11 +47,10 @@ class AnswerScreen extends Component {
 
     async findChatRoomForThatAnswer(questionId) {
 
-      console.log("Daha önceden yaratılmış bir chatRoom var mı");
       var chatroom = null
 
-      let snapshot = await firebaseDatabase.ref('users/' + this.props.auth.uid)
-          .child('chatRooms/')
+      let snapshot = await firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/' + this.props.auth.uid)
+          .child(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/')
           .child(questionId)
           .once('value');
 
@@ -70,8 +64,12 @@ class AnswerScreen extends Component {
     giveAnswerToQuestion = () => {
 
       var questionId = this.state.questionId
-      // Kullanıcı var mı kontrolü
-      if(!_.isEmpty(this.props.auth)) {
+
+      // Login durumda olan kullanıcı var mı kontrolü
+      // Eğer yoksa kullanıcıyı signup sayfasına yönlendirecek.
+      if(_.isEmpty(this.props.auth)) {
+        this.props.navigation.navigate(routeConstants.ROUTE_SIGN_UP)
+       }
 
         // Daha önceden yaratılmış bir chatRoom var mı?
         // bir chatroom : Soruyu soran, Cevaplayan ve soru bazında unique olacak.
@@ -85,7 +83,7 @@ class AnswerScreen extends Component {
             console.log("Daha önceden yaratılmış bir chatRoom yok");
 
             // create ChatRoom for this question
-            var newChatRoom = this.firebaseDatabase.ref('chatRooms/').push();
+            var newChatRoom = this.firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/').push();
             chatRoom = newChatRoom.key
 
 
@@ -104,14 +102,15 @@ class AnswerScreen extends Component {
 
 
             //Insert chatroom info for the userUid
-            firebaseDatabase.ref('users/' + this.props.auth.uid)
-                .child('chatRooms/')
+            firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/' + this.props.auth.uid)
+                .child(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/')
                 .child(questionId)
                 .child(chatRoom).set('TRUE');
           }
 
           // Insert messages into chatrooms
-          var messageRef = firebaseDatabase.ref('chatRooms/' + chatRoom).child('messages/').push();
+          var messageRef = firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/' + chatRoom)
+                                           .child(firebaseDbConstants.FIREBASE_DB_MESSAGES+'/').push();
           messageRef.set({
             content: this.state.answer,
             createdAt : firebase.database.ServerValue.TIMESTAMP,
@@ -120,7 +119,6 @@ class AnswerScreen extends Component {
             status : 'TRUE'
           })
         })
-      }
     }
 
     answerChange = (answer) => {
@@ -134,9 +132,6 @@ class AnswerScreen extends Component {
         return (
             <View style={styles.container}>
               <Map style={styles.map}/>
-              <View style={styles.searchInputView}>
-                <SearchLocation/>
-              </View> 
               <View style={styles.answerWrapper}>
                 <TextInput style={styles.answer}
                   onChangeText={this.answerChange}
@@ -171,13 +166,7 @@ function mapStateToProps(state) {
 
 export default connect(mapStateToProps, mapDispatchToProps)(AnswerScreen);
 
-var platformOffset = Platform.OS === 'ios' ? 0 : 10;
-
 const styles = StyleSheet.create({
-    scrollView: {
-        flex: 1,
-        marginBottom: 50
-    },
     container: {
         flex: 1,
         justifyContent: 'center',
@@ -188,24 +177,6 @@ const styles = StyleSheet.create({
         flex: 1,
         width: null,
         height: null,
-    },
-    dots: {
-        width: 20,
-        height: 20
-    },
-    searchInputView: {
-        backgroundColor: 'rgba(0,0,0,0)',
-        position: 'absolute',
-        top: 0,
-        left: 5,
-        right: 5
-    },
-    inputView: {
-        backgroundColor: 'rgba(0,0,0,0)',
-        position: 'absolute',
-        top: 0,
-        left: 5,
-        right: 5
     },
     buttonAnswer: {
         position: 'absolute',
