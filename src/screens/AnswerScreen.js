@@ -12,11 +12,8 @@ import {
 } from 'react-native';
 import { Icon, Button,SocialIcon } from 'react-native-elements';
 import Map from '../components/Map';
-import * as dataConstants from '../constants/dataConstants';
-import SearchLocation from '../components/SearchLocation';
 
 const { width, height } = Dimensions.get('window');
-
 
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
@@ -25,6 +22,7 @@ import { ActionCreators } from '../redux/actions'
 // FIREBASE RELATED ITEMS
 import firebase,{ firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 
+import * as dataConstants from '../constants/dataConstants';
 import * as firebaseDbConstants from '../constants/firebaseDbConstants';
 
 import { _ } from 'lodash';
@@ -40,7 +38,7 @@ class AnswerScreen extends Component {
         super(props);
         this.state = {
           searchText: null,
-          questionId: null,
+          questionId: '-LAGL3x-mAU-535FIXD-',
           answer: null
         }
     }
@@ -71,52 +69,59 @@ class AnswerScreen extends Component {
         this.props.navigation.navigate(routeConstants.ROUTE_SIGN_UP)
        }
 
-        // Daha önceden yaratılmış bir chatRoom var mı?
+        // Daha önceden yaratılmış bir chatRoom var mı? 
+        // Yani bu soruya cevap mı veriliyor yoksa chat mi devam ediyor..
         // bir chatroom : Soruyu soran, Cevaplayan ve soru bazında unique olacak.
         this.findChatRoomForThatAnswer(questionId).then( (chatRoom) => {
 
           //Daha önceden chatroom yaratılıp yaratılmadığının kontrolü
           if(chatRoom) {
+            // Soru soran ile cevaplayan arasında muhabbet devam ediyor demektir.
             console.log("Daha önceden yaratılmış bir chatRoom var");
 
           } else {
+            //Soruya ilk defa cevap veriliyor demektir.
             console.log("Daha önceden yaratılmış bir chatRoom yok");
 
             // create ChatRoom for this question
-            var newChatRoom = this.firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/').push();
+            var newChatRoom = firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/').push();
             chatRoom = newChatRoom.key
 
-
             newChatRoom.set({
-                    status: "TRUE",
-                    relatedQuestion: questionId,
-                    createdAt: firebase.database.ServerValue.TIMESTAMP,
+                    [firebaseDbConstants.FIRABASE_DB_CHATROOM_STATUS]: [dataConstants.CHATROOM_STATUS_OPEN],
+                    [firebaseDbConstants.FIREBASE_DB_CHATROOM_RELATED_QUESTION]: questionId,
+                    [firebaseDbConstants.FIREBASE_DB_CHATROOM_CREATED_AT]: firebase.database.ServerValue.TIMESTAMP,
             });
 
-            newChatRoom.child('members/').set({memberUserUid: this.props.auth.uid});
+            newChatRoom.child(firebaseDbConstants.FIREBASE_DB_CHATROOMS_MEMBERS+'/')
+                       .set({ [firebaseDbConstants.FIREBASE_DB_CHATROOMS_MEMBER_USER_ID]: this.props.auth.uid});
 
             // Insert chatrooms info for this question
-            firebaseDatabase.ref('questions/' + questionId)
-                .child('chatRooms/')
-                .child(chatRoom).set('TRUE');
+            firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/' + questionId)
+                .child(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/')
+                .child(chatRoom)
+                .set(dataConstants.CHATROOM_STATUS_OPEN);
 
 
             //Insert chatroom info for the userUid
             firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/' + this.props.auth.uid)
                 .child(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/')
                 .child(questionId)
-                .child(chatRoom).set('TRUE');
+                .child(chatRoom)
+                .set(dataConstants.CHATROOM_STATUS_OPEN);
           }
 
           // Insert messages into chatrooms
           var messageRef = firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_CHATROOMS+'/' + chatRoom)
-                                           .child(firebaseDbConstants.FIREBASE_DB_MESSAGES+'/').push();
+                                           .child(firebaseDbConstants.FIREBASE_DB_MESSAGES+'/')
+                                           .push();
+
           messageRef.set({
-            content: this.state.answer,
-            createdAt : firebase.database.ServerValue.TIMESTAMP,
-            location: this.props.location,
-            sender : this.props.auth.uid,
-            status : 'TRUE'
+            [firebaseDbConstants.FIREBASE_DB_MESSAGE_CONTENT]: this.state.answer,
+            [firebaseDbConstants.FIREBASE_DB_MESSAGE_CREATED_AT] : firebase.database.ServerValue.TIMESTAMP,
+            [firebaseDbConstants.FIREBASE_DB_MESSAGE_LOCATION] : this.props.location,
+            [firebaseDbConstants.FIREBASE_DB_MESSAGE_SENDER]  : this.props.auth.uid,
+            [firebaseDbConstants.FIREBASE_DB_MESSAGE_STATUS] : 'TRUE'
           })
         })
     }
@@ -125,7 +130,6 @@ class AnswerScreen extends Component {
       this.setState({
         answer: answer
       })
-      console.log("answer"+this.state.answer);
     }
 
     render() {

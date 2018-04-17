@@ -23,7 +23,7 @@ const MainNavigator = TabNavigator ({
   signup: { screen: SignUpScreen },
   main: {
       screen: TabNavigator({
-        question: { screen: QuestionScreen },
+        question: { screen: AnswerScreen },
         settings: { screen: SettingsScreen },
         answer: { screen: AnswerScreen },
         register: { screen: RegisterScreen }

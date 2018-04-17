@@ -50,6 +50,20 @@ export const FIREBASE_DB_ANSWER_VIEWED_BY                   ='viewed_by'
 export const FIREBASE_DB_ANSWER_STATUS                      ='status'
 
 //CHATROOMS
-export const FIREBASE_DB_MESSAGES               ='messages'
 export const FIREBASE_DB_CHATROOMS                  ='chatrooms'
 export const FIREBASE_DB_CHATROOM_ID                ='chatroomid'
+export const FIRABASE_DB_CHATROOM_STATUS            ='status'
+export const FIREBASE_DB_CHATROOM_RELATED_QUESTION  ='relatedQuestion'
+export const FIREBASE_DB_CHATROOM_CREATED_AT        ='created_at'
+export const FIREBASE_DB_CHATROOMS_MEMBERS          ='members'
+export const FIREBASE_DB_CHATROOMS_MEMBER_USER_ID   ='user_id'
+
+
+//CHAT MESSAGES
+export const FIREBASE_DB_MESSAGES                   ='messages'
+export const FIREBASE_DB_MESSAGE_CONTENT            ='content'
+export const FIREBASE_DB_MESSAGE_CREATED_AT         ='created_at'
+export const FIREBASE_DB_MESSAGE_LOCATION           ='location'
+export const FIREBASE_DB_MESSAGE_SENDER             ='sender'
+export const FIREBASE_DB_MESSAGE_STATUS             ='status'
+

@@ -13,6 +13,8 @@ import {
     KeyboardAvoidingView
 } from 'react-native';
 import { Icon, Button,SocialIcon, ButtonGroup } from 'react-native-elements';
+
+
 import Map from '../components/Map';
 import MapCircle from '../components/MapCircle';
 
@@ -145,7 +147,7 @@ class QuestionScreen extends Component {
       firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/' + questionUid)
                       .child(firebaseDbConstants.FIREBASE_DB_WAITING_ANSWERS+'/')
                       .child(answerUserUid)
-                      .set({
+                      .update({
                         [ firebaseDbConstants.FIREBASE_DB_ANSWER_CREATED_AT ] : dateTime,
                         [ firebaseDbConstants.FIREBASE_DB_ANSWER_STATUS ]     : constants.ANSWER_STATUS_WAITING,
                         [ firebaseDbConstants.FIREBASE_DB_ANSWER_VIEWED_BY ]  :'FALSE' 
@@ -293,7 +295,7 @@ class QuestionScreen extends Component {
 
     render() {
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container} behavior="padding">
               <Map style={styles.map}/>
               <View style={styles.categoryWrapper}>
                 <View style={styles.categoryListWrapper}>
@@ -355,16 +357,16 @@ class QuestionScreen extends Component {
                     SAG TARAF hoppal
                   </Text>
                 </View>
-                <KeyboardAvoidingView behavior="padding" style={styles.form}>
+                <View style={styles.form}>
                   <TextInput style={styles.questionInput}
                     onChangeText={this.questionChange}
                     multiline={true}
-                    value={this.state.question ? this.state.question : ''}
+                    value={this.state.question ? this.state.question : 'deneme deneme'}
                     placeholder="Your Question..."
                     placeholderTextColor="white"
                     underlineColorAndroid="rgba(0, 0, 0, 0)"
                     numberOfLines={2}/>
-                </KeyboardAvoidingView>
+                </View>
               </View>
               <View style={styles.buttonWrapper}>
                 <Button
@@ -373,7 +375,7 @@ class QuestionScreen extends Component {
                   onPress={this.askQuestion}
                 />
               </View>
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -393,10 +395,7 @@ export default connect(mapStateToProps, mapDispatchToProps)(QuestionScreen);
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'stretch',
-        backgroundColor: '#F5FCFF'
+        flex: 1    
     },
     map: {
         flex: 1,
