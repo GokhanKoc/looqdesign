@@ -121,7 +121,7 @@ class AnswerScreen extends Component {
             [firebaseDbConstants.FIREBASE_DB_MESSAGE_CREATED_AT] : firebase.database.ServerValue.TIMESTAMP,
             [firebaseDbConstants.FIREBASE_DB_MESSAGE_LOCATION] : this.props.location,
             [firebaseDbConstants.FIREBASE_DB_MESSAGE_SENDER]  : this.props.auth.uid,
-            [firebaseDbConstants.FIREBASE_DB_MESSAGE_STATUS] : 'TRUE'
+            [firebaseDbConstants.FIREBASE_DB_MESSAGE_STATUS] : dataConstants.MESSAGE_STATUS_ACTIVE
           })
         })
     }
