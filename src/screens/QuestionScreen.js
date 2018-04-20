@@ -293,12 +293,20 @@ class QuestionScreen extends Component {
       console.log("ACABA DOGRU MUDUR"+text);
     }
 
+
+    updateIndex = (selectedIndex) => {
+      this.setState({selectedIndex})
+    }
+
+
     render() {
+
         return (
             <KeyboardAvoidingView style={styles.container} behavior="padding">
               <Map style={styles.map}/>
               <View style={styles.categoryWrapper}>
                 <View style={styles.categoryListWrapper}>
+
 
                   <Text>{constants.QUESTION_TYPE_FOOD}
                     <Switch
@@ -346,7 +354,6 @@ class QuestionScreen extends Component {
                       value={this.state.funSwitchIsOn}/>
                   </Text>
                 </View>
-
               </View>
               <View style={styles.questionWrapper}>
                 <View style={styles.predefinedQuestionsWrapper}>
@@ -470,8 +477,7 @@ const styles = StyleSheet.create({
       top: 15*vh,
       width: width*0.6,
       left: width*0.2,
-      alignItems: 'flex-start',
-      backgroundColor: 'rgba(0, 0, 0, 0)'
+      alignItems: 'flex-start'
     },
     categoryListWrapper: {
         position: 'relative',
@@ -483,10 +489,7 @@ const styles = StyleSheet.create({
     categoryButton: {
         marginBottom: 0.8*vh,
         marginTop: 0.8*vh,
-        //marginLeft: 10,
-        //marginRight: 10
         position: 'relative',
-        borderRadius: 20,
-        backgroundColor: '#FF3366',
+        borderRadius: 20
     }
 });

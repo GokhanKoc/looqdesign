@@ -10,7 +10,7 @@ import {
     TextInput,
     Switch
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button ,Divider} from 'react-native-elements';
 import Map from '../components/Map';
 
 const { width, height } = Dimensions.get('window');
@@ -58,6 +58,7 @@ class RegisterScreen extends Component {
   }
 
   componentWillMount() {
+
 
     // Login durumda olan kullanıcı var mı kontrolü
     // Eğer yoksa kullanıcıyı signup sayfasına yönlendirecek.
@@ -152,6 +153,27 @@ class RegisterScreen extends Component {
     }
 
 
+    onPressFoodButton = () => {
+      this.setState({foodSwitchIsOn: !this.state.foodSwitchIsOn})
+    }
+
+    onPressSurpriseButton = () => {
+      this.setState({surpriseSwitchIsOn: !this.state.surpriseSwitchIsOn})
+    }
+
+    onPressEventButton = () => {
+      this.setState({eventSwitchIsOn: !this.state.eventSwitchIsOn})
+    }
+
+    onPressHotelButton = () => {
+      this.setState({hotelSwitchIsOn: !this.state.hotelSwitchIsOn})
+    }
+
+    onPressFunButton = () => {
+      this.setState({funSwitchIsOn: !this.state.funSwitchIsOn})
+    }
+
+
     render() {
       return ( 
 
@@ -165,57 +187,42 @@ class RegisterScreen extends Component {
     displayJsxMessage() {
       if (this.state.userIsOnCategory) {
           return (
-            <View>
+            <View style={styles.container}>
               <View style={styles.categoryWrapper}>
                 <View style={styles.categoryTopTextView}>
                   <Text style={styles.categoryTopText}> I can answer about</Text>
                 </View>
                 <View style={styles.categoryListWrapper}>
-                  <Text>{dataConstants.QUESTION_TYPE_FOOD}
-                    <Switch
-                      onValueChange={(value) => this.setState({foodSwitchIsOn: value})}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.foodSwitchIsOn}/>
-                  </Text>
-                  <Text>{dataConstants.QUESTION_TYPE_SURPRISE}
-                    <Switch
-                      onValueChange={(value) => this.setState({surpriseSwitchIsOn: value})}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.surpriseSwitchIsOn}/>
-                  </Text>
-                  <Text>{dataConstants.QUESTION_TYPE_EVENT}
-                    <Switch
-                      onValueChange={(value) => this.setState({eventSwitchIsOn: value})}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.eventSwitchIsOn}/>
-                  </Text>
-                  <Text>{dataConstants.QUESTION_TYPE_HOTEL}
-                    <Switch
-                      onValueChange={(value) => this.setState({hotelSwitchIsOn: value})}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.hotelSwitchIsOn}/>
-                  </Text>
-                  <Text>{dataConstants.QUESTION_TYPE_FUN}
-                    <Switch
-                      onValueChange={(value) => this.setState({funSwitchIsOn: value})}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.funSwitchIsOn}/>
-                  </Text>
+                  <Button 
+                        title={dataConstants.QUESTION_TYPE_FOOD} 
+                        buttonStyle={[styles.categoryButton, this.state.foodSwitchIsOn ? styles.activeCategoryButton : styles.passiveCategoryButton ]}
+                        onPress={this.onPressFoodButton}
+                        color={ this.state.foodSwitchIsOn ? 'white' : 'black' }
+                  />
+                  <Button 
+                        title={dataConstants.QUESTION_TYPE_SURPRISE} 
+                        buttonStyle={[styles.categoryButton, this.state.surpriseSwitchIsOn ? styles.activeCategoryButton : styles.passiveCategoryButton ]}
+                        onPress={this.onPressSurpriseButton}
+                        color={ this.state.surpriseSwitchIsOn ? 'white' : 'black' }
+                  />
+                  <Button 
+                        title={dataConstants.QUESTION_TYPE_EVENT} 
+                        buttonStyle={[styles.categoryButton, this.state.eventSwitchIsOn ? styles.activeCategoryButton : styles.passiveCategoryButton ]}
+                        onPress={this.onPressEventButton}
+                        color={ this.state.eventSwitchIsOn ? 'white' : 'black' }
+                  />
+                  <Button 
+                        title={dataConstants.QUESTION_TYPE_HOTEL} 
+                        buttonStyle={[styles.categoryButton, this.state.hotelSwitchIsOn ? styles.activeCategoryButton : styles.passiveCategoryButton ]}
+                        onPress={this.onPressHotelButton}
+                        color={ this.state.hotelSwitchIsOn ? 'white' : 'black' }
+                  />
+                  <Button 
+                        title={dataConstants.QUESTION_TYPE_FUN} 
+                        buttonStyle={[styles.categoryButton, this.state.funSwitchIsOn ? styles.activeCategoryButton : styles.passiveCategoryButton ]}
+                        onPress={this.onPressFunButton}
+                        color={ this.state.funSwitchIsOn ? 'white' : 'black' }
+                  />
                 </View>
 
                 <View style={styles.categoryBottomTextView}>
@@ -271,6 +278,11 @@ const styles = StyleSheet.create({
       width: null,
       height: null,
   },
+  categoryContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'stretch'
+  },
   categoryWrapper: {
     position: 'absolute',
     top: 15*vh,
@@ -302,11 +314,15 @@ const styles = StyleSheet.create({
   categoryButton: {
       marginBottom: 0.8*vh,
       marginTop: 0.8*vh,
-      //marginLeft: 10,
-      //marginRight: 10
       position: 'relative',
       borderRadius: 20,
+      width: 0.3*width
+  },
+  activeCategoryButton: {
       backgroundColor: '#FF3366',
+  },
+  passiveCategoryButton: {
+      backgroundColor: '#D3D3D3',
   },
   categoryBottomTextView: {
     position: 'relative',
@@ -334,5 +350,14 @@ const styles = StyleSheet.create({
       backgroundColor: '#FF3366',
       width: 12*vh,
       height: 12*vh
+  },
+  button: {
+    position: 'relative',
+    width: '90%',
+    left: '5%', 
+    backgroundColor: '#ccc',
+    borderRadius: 2,
+    margin: 0.5 
   }
+
 });

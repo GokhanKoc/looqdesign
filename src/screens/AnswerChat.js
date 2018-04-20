@@ -15,6 +15,10 @@ import Map from '../components/Map';
 
 const { width, height } = Dimensions.get('window');
 
+let vw = Dimensions.get('window').width /100;
+let vh = Dimensions.get('window').height /100;
+
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux'
 import { ActionCreators } from '../redux/actions'
@@ -29,7 +33,7 @@ import * as routeConstants from '../constants/routeConstants';
 import { _ } from 'lodash';
 var moment = require('moment');
 
-class AnswerScreen extends Component {
+class AnswerChat extends Component {
 
   static navigationOptions = {
     title: 'Answer'
@@ -150,21 +154,23 @@ class AnswerScreen extends Component {
         return (
             <View style={styles.container}>
               <Map style={styles.map}/>
-              <View style={styles.answerWrapper}>
-                <TextInput style={styles.answer}
-                  onChangeText={this.answerChange}
-                  multiline={true}
-                  value={this.state.answer ? this.state.answer : ''}
-                  placeholder="Your Answer..."
-                  placeholderTextColor="black"
-                  underlineColorAndroid="rgba(0, 0, 0, 0)"
-                  numberOfLines={2}/>
+
+              <View style={styles.answerPin}>
+                <View style={styles.pinUser}>
+                  <Image style={styles.pinUserImg} 
+                      source={{uri: 'http://bootstrap.gallery/everest-v3/img/user1.jpg'}}
+                  />
+                </View>
               </View>
-              <Button
-                style={styles.buttonAnswer}
-                title='ANSWER'
-                onPress={this.giveAnswerToQuestion}
-              />
+
+              <View style={styles.questionGroup}>
+                <View style={styles.askQuestion}>
+                  <Text style={styles.askQuestionText}>
+                    Pariatur aute voluptate excepteur nisi eu cupidatat consequat amet occaecat in qui.
+                  </Text>
+                </View>
+              </View>
+
             </View>
         );
     }
@@ -182,7 +188,7 @@ function mapStateToProps(state) {
   };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AnswerScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(AnswerChat);
 
 const styles = StyleSheet.create({
     container: {
@@ -196,11 +202,48 @@ const styles = StyleSheet.create({
         width: null,
         height: null,
     },
-    buttonAnswer: {
+    questionGroup: {
         position: 'absolute',
-        borderRadius: 100,
-        marginBottom: 20,
-        marginLeft: 10,
-        marginRight: 10
+        bottom: 17*vh,
+        width: width,
+        padding: 1.5*vh
+    },
+    askQuestion: {
+        position: 'relative',
+        backgroundColor: '#1F8BFF',
+        borderRadius: vh,
+        padding: 1.5*vh,
+        marginTop: 2.5*vh
+    },
+    askQuestionText: {
+      fontSize: 2.2*vh,
+      color: 'white'
+    },
+    answerPin: {
+        position: 'absolute',
+        top: .50*height,
+        left: .025*width,
+        width: .95*width,
+        borderRadius: 0.5,
+        backgroundColor: '#6600ff',
+        zIndex: 10
+    },
+    pinUser: {
+        position: 'absolute',
+        width: 10*vh,
+        height: 10*vh,
+        left: 0.5*width,
+        bottom: -3*vh,
+        marginLeft: -5*vh,
+        borderRadius: 50% 50% 50% 0,
+        //transform: [rotateY: '-45deg'], 
+        backgroundColor: '#6600ff' 
+    },
+    pinUserImg: {
+        position: 'absolute',
+        left: 0.05*width,
+        top: 0.05*width,
+        width: '90%',
+        height: '90%'
     }
 });

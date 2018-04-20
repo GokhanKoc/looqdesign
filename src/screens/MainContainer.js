@@ -13,6 +13,7 @@ import SettingsScreen from '../screens/SettingsScreen';
 import SignUpScreen from '../screens/SignUpScreen';
 import RegisterScreen from '../screens/RegisterScreen';
 import AnswerScreen from '../screens/AnswerScreen';
+import AnswerChat from '../screens/AnswerChat';
 
 
 import { TabNavigator } from 'react-navigation';
@@ -23,7 +24,7 @@ const MainNavigator = TabNavigator ({
   signup: { screen: SignUpScreen },
   main: {
       screen: TabNavigator({
-        question: { screen: AnswerScreen },
+        question: { screen: QuestionScreen },
         settings: { screen: SettingsScreen },
         answer: { screen: AnswerScreen },
         register: { screen: RegisterScreen }
