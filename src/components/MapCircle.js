@@ -10,11 +10,7 @@ const LATITUDE_DELTA = 0.0322;
 const LONGITUDE_DELTA = 0.0322; //LATITUDE_DELTA * ASPECT_RATIO;
 
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../redux/actions';
-
-class Map extends React.Component {
+class MapCircle extends React.Component {
 
   constructor(props) {
     super(props);
@@ -113,12 +109,5 @@ class Map extends React.Component {
   }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
-}
 
-function mapStateToProps(state) {
-  return { location: state.location };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Map);
+export default MapCircle;

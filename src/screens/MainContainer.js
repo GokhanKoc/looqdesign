@@ -4,7 +4,6 @@ import {
     StyleSheet
 } from 'react-native';
 
-import {firebaseAuth } from '../firebase/firebase';
 
 
 import WelcomeScreen from '../screens/WelcomeScreen';
@@ -21,7 +20,7 @@ import { TabNavigator } from 'react-navigation';
 
 const MainNavigator = TabNavigator ({
   //welcome: { screen: WelcomeScreen },
-  signup: { screen: SignUpScreen },
+  signup: { screen: QuestionScreen },
   main: {
       screen: TabNavigator({
         question: { screen: QuestionScreen },

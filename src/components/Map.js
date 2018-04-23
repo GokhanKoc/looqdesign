@@ -10,10 +10,6 @@ const LATITUDE_DELTA = 0.3;
 const LONGITUDE_DELTA = 0.3; //LATITUDE_DELTA * ASPECT_RATIO;
 
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../redux/actions';
-
 class Map extends React.Component {
 
   constructor(props) {
@@ -47,8 +43,6 @@ class Map extends React.Component {
     
     console.log("onRegionChangeComplete...."+region.latitude+"-------"+region.longitude+"------");
 
-    //this.setState({location: region});
-    this.props.changeLocation(region);
   }
 
 
@@ -72,8 +66,6 @@ class Map extends React.Component {
     //console.log("ASYNC LOCATION LATITUDE------"+this.props.location.latitude+"-------"+region.latitude+"------")
     //console.log("ASYNC LOCATION LONGITUDE------"+this.props.location.longitude+"-------"+region.longitude+"------")
 
-    //this.setState({location: region});
-    this.props.changeLocation(region);
   };
 
 
@@ -122,21 +114,10 @@ class Map extends React.Component {
             mapType="standard"
             showsUserLocation={true}
             onMapReady={this._onMapReady}
-            onRegionChange={ (region) => {
-                  //this.setState({location: region});
-                  this.props.changeLocation(region);
-              }}
           />
         )
     }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
-}
 
-function mapStateToProps(state) {
-    return { location: state.location };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Map);
+export default Map;

@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { View, Dimensions, Text, TextInput } from 'react-native';
-import { GooglePlacesAutocomplete } from 'react-native-google-places-autocomplete';
 
 const { width, height } = Dimensions.get('window');
 
@@ -8,11 +7,8 @@ const ASPECT_RATIO = width / height;
 const LATITUDE_DELTA = 0.3;
 const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../redux/actions';
 
-class SearchLocation extends Component {
+export class SearchLocation extends Component {
 
   searchLocation = (location) => {
     let region = {
@@ -106,12 +102,4 @@ const styles = {
   }
 };
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
-}
 
-function mapStateToProps(state) {
-  return { location: state.location };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(SearchLocation);

@@ -25,12 +25,6 @@ import * as constants from '../constants/dataConstants';
 const { width, height } = Dimensions.get('window');
 
 
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { ActionCreators } from '../redux/actions';
-
-// FIREBASE RELATED ITEMS
-import firebase,{ firebaseAuth,firebaseDatabase } from '../firebase/firebase';
 import { _ } from 'lodash';
 var moment = require('moment');
 
@@ -67,41 +61,6 @@ class QuestionScreen extends Component {
     askQuestion = () => {
 
 
-      //KULLANICI YOKSA BURDA NE ISIN VAR :)
-      if(_.isEmpty(this.props.auth)) {
-        this.props.navigation.navigate(routeConstants.ROUTE_SIGN_UP)
-      }
-
-        var userUid = this.props.auth.uid
-
-        // insert question infos into QUESTIONS table
-        var question = firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/').push();
-
-        var dateTime = firebase.database.ServerValue.TIMESTAMP
-
-        // New question created....
-        question.set({
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_OWNER_ID ] : userUid,
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CONTENT ]  : this.state.question,
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_LOC_LATITUDE ]  : this.props.location.latitude,
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_LOC_LONGITUDE ] : this.props.location.longitude,
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CREATED_AT ] : dateTime,
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_CREATED_AT_FORMATTED ] : moment(dateTime).format('DD MMMM YYYY, h:mm:ss a'),
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_STATUS ] : constants.QUESTION_STATUS_NEW, 
-          [ firebaseDbConstants.FIREBASE_DB_QUESTION_TYPE ] : this.state.questionType
-        });
-
-        // insert questions infos into USERS table
-        firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/' + userUid)
-                        .child(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/')
-                        .child(question.key)
-                        .set("TRUE");
-
-        // SEND Question to other users..
-        this.sendQuestionToRandomUser(question.key,userUid);
-
-
-        //this.giveAnswerToQuestion(question.key);
     }
 
 
@@ -111,47 +70,12 @@ class QuestionScreen extends Component {
     // Push mesaj için database trigger ile push gönderilecek firebase üzerinden
     sendQuestionToRandomUser(questionKey,questionOwnerUid) {
 
-      //GET Active Users
-      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/').once('value').then( (snapshot) => {
-        snapshot.forEach( (childSnapshot) => {
-
-          //TODO geçici olarak herkese soruyu gönderelim. test amaçlı
-          this.sendQuestion(questionKey,childSnapshot.key)
-
-          // if(questionOwnerUid != childSnapshot.key ) {
-          //   this.sendQuestion(questionKey,childSnapshot.key)
-          //   console.log("Diğer kullanıcıları bulmak lazım şimdi de...."+childSnapshot.key );
-          // }
-        })
-      })
 
     }
 
     // İlgili soruyu belirlenen kullanıcılara gönder
     sendQuestion(questionUid,answerUserUid) {
 
-      var dateTime = firebase.database.ServerValue.TIMESTAMP
-
-      // Seçilen kullanıcılara soru gönderilmeli ve ayrıca bu kullanıcılara notification iletmeliyiz..
-      // Firebase notification kullanılabilir...
-      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_USERS+'/' + answerUserUid)
-                      .child(firebaseDbConstants.FIREBASE_DB_WAITING_ANSWERS+'/')
-                      .child(questionUid)
-                      .set({
-                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_CREATED_AT ] : dateTime,
-                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_STATUS ]     : constants.ANSWER_STATUS_WAITING,
-                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_VIEWED_BY ]  :'FALSE' 
-      });
-
-      //Soru domain içerisine de kimlerden cevap beklendiği bilgisini işle.
-      firebaseDatabase.ref(firebaseDbConstants.FIREBASE_DB_QUESTIONS+'/' + questionUid)
-                      .child(firebaseDbConstants.FIREBASE_DB_WAITING_ANSWERS+'/')
-                      .child(answerUserUid)
-                      .update({
-                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_CREATED_AT ] : dateTime,
-                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_STATUS ]     : constants.ANSWER_STATUS_WAITING,
-                        [ firebaseDbConstants.FIREBASE_DB_ANSWER_VIEWED_BY ]  :'FALSE' 
-      });
 
     }
 
@@ -301,119 +225,130 @@ class QuestionScreen extends Component {
 
     render() {
 
+      const buttons = ['Hello', 'World', 'Buttons']
+      const { selectedIndex } = this.state
+
         return (
-            <KeyboardAvoidingView style={styles.container} behavior="padding">
-              <Map style={styles.map}/>
-              <View style={styles.categoryWrapper}>
-                <View style={styles.categoryListWrapper}>
+            <KeyboardAvoidingView style={styles.container} behavior='padding'>
+                <Map style={styles.map}/>
+                <View style={styles.categoryWrapper}>
+                  <View style={styles.categoryListWrapper}>
 
-
-                  <Text>{constants.QUESTION_TYPE_FOOD}
-                    <Switch
-                      onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_FOOD)}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.foodSwitchIsOn}/>
-                  </Text>
-                  <Text>{constants.QUESTION_TYPE_SURPRISE}
-                    <Switch
-                      onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_SURPRISE)}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.surpriseSwitchIsOn}/>
-                  </Text>
-                  <Text>{constants.QUESTION_TYPE_EVENT}
-                    <Switch
-                      onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_EVENT)}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.eventSwitchIsOn}/>
-                  </Text>
-                  <Text>{constants.QUESTION_TYPE_HOTEL}
-                    <Switch
-                      onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_HOTEL)}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.hotelSwitchIsOn}/>
-                  </Text>
-                  <Text>{constants.QUESTION_TYPE_FUN}
-                    <Switch
-                      onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_FUN)}
-                      onTintColor="#00ff00"
-                      style={styles.categoryButton}
-                      thumbTintColor="#0000ff"
-                      tintColor="#ff0000"
-                      value={this.state.funSwitchIsOn}/>
-                  </Text>
+                    <Text>{constants.QUESTION_TYPE_FOOD}
+                      <Switch
+                        onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_FOOD)}
+                        onTintColor="#00ff00"
+                        style={styles.categoryButton}
+                        thumbTintColor="#0000ff"
+                        tintColor="#ff0000"
+                        value={this.state.foodSwitchIsOn}/>
+                    </Text>
+                    <Text>{constants.QUESTION_TYPE_SURPRISE}
+                      <Switch
+                        onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_SURPRISE)}
+                        onTintColor="#00ff00"
+                        style={styles.categoryButton}
+                        thumbTintColor="#0000ff"
+                        tintColor="#ff0000"
+                        value={this.state.surpriseSwitchIsOn}/>
+                    </Text>
+                    <Text>{constants.QUESTION_TYPE_EVENT}
+                      <Switch
+                        onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_EVENT)}
+                        onTintColor="#00ff00"
+                        style={styles.categoryButton}
+                        thumbTintColor="#0000ff"
+                        tintColor="#ff0000"
+                        value={this.state.eventSwitchIsOn}/>
+                    </Text>
+                    <Text>{constants.QUESTION_TYPE_HOTEL}
+                      <Switch
+                        onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_HOTEL)}
+                        onTintColor="#00ff00"
+                        style={styles.categoryButton}
+                        thumbTintColor="#0000ff"
+                        tintColor="#ff0000"
+                        value={this.state.hotelSwitchIsOn}/>
+                    </Text>
+                    <Text>{constants.QUESTION_TYPE_FUN}
+                      <Switch
+                        onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_FUN)}
+                        onTintColor="#00ff00"
+                        style={styles.categoryButton}
+                        thumbTintColor="#0000ff"
+                        tintColor="#ff0000"
+                        value={this.state.funSwitchIsOn}/>
+                    </Text>
+                  </View>
                 </View>
-              </View>
-              <View style={styles.questionWrapper}>
-                <View style={styles.predefinedQuestionsWrapper}>
-                  <Text style={styles.predefinedQuestionLeft}>
-                    SOL TARAF deneme dendemdemde
-                  </Text>
-                  <Text style={styles.predefinedQuestionRight}>
-                    SAG TARAF hoppal
-                  </Text>
+                <View style={styles.questionWrapper}>
+                  <View style={styles.predefinedQuestionsWrapper}>
+                    <Text style={styles.predefinedQuestionLeft}>
+                      SOL TARAF deneme dendemdemde
+                    </Text>
+                    <Text style={styles.predefinedQuestionRight}>
+                      SAG TARAF hoppal
+                    </Text>
+                  </View>
+                  <View style={styles.form}>
+                    <TextInput style={styles.questionInput}
+                      onChangeText={this.questionChange}
+                      multiline={true}
+                      value={this.state.question ? this.state.question : 'deneme deneme'}
+                      placeholder="Your Question..."
+                      placeholderTextColor="white"
+                      underlineColorAndroid="rgba(0, 0, 0, 0)"
+                      numberOfLines={2}/>
+                  </View>
                 </View>
-                <View style={styles.form}>
-                  <TextInput style={styles.questionInput}
-                    onChangeText={this.questionChange}
-                    multiline={true}
-                    value={this.state.question ? this.state.question : 'deneme deneme'}
-                    placeholder="Your Question..."
-                    placeholderTextColor="white"
-                    underlineColorAndroid="rgba(0, 0, 0, 0)"
-                    numberOfLines={2}/>
+                <View style={styles.buttonWrapper}>
+                  <Button
+                    buttonStyle={styles.buttonAsk}
+                    title='ASK'
+                    onPress={this.askQuestion}
+                  />
                 </View>
-              </View>
-              <View style={styles.buttonWrapper}>
-                <Button
-                  buttonStyle={styles.buttonAsk}
-                  title='ASK'
-                  onPress={this.askQuestion}
-                />
-              </View>
             </KeyboardAvoidingView>
         );
     }
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators(ActionCreators, dispatch);
-}
 
-function mapStateToProps(state) {
-  return {
-    auth: state.auth,
-    location: state.location
-  };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(QuestionScreen);
+export default QuestionScreen;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1    
+        flex: 1,
+        justifyContent: 'center'    
     },
     map: {
-        flex: 1,
-        width: null,
-        height: null,
+        flex: 1
+    },
+    categoryWrapper: {
+      flex: 8,
+      justifyContent: 'center',
+      alignItems: 'center'
     },
     questionWrapper: {
-        position: 'absolute',
-        bottom: 15*vh,
-        width: width,
-        padding: 10
+      flex: 4
+    },
+    buttonWrapper: {
+      flex: 2,
+      alignItems: 'center'
+    },
+    categoryListWrapper: {
+      position: 'relative',
+      alignItems: 'center'
+    },
+    categoryButton: {
+      borderRadius: 20
+    }, 
+    predefinedQuestionsWrapper: {
+      flex: 4,
+      flexDirection: 'column'
+    },
+    form: {
+      flex: 2,
     },
     questionInput: {
         position: 'relative',
@@ -423,46 +358,30 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         fontSize: 18,
         padding: 20,
-        marginTop: 30,
-        marginLeft: 10,
-        marginRight: 10
-    },
-    buttonWrapper: {
-      position: 'absolute',
-      bottom: 3*vh
+        margin: 10,
     },
     buttonAsk: {
         position: 'relative',
+        justifyContent: 'center',
         borderRadius: 100,
-        left: (width /2)-(6*vh),
-        right: (width /2)-(6*vh),
         backgroundColor: '#FF3366',
         width: 12*vh,
         height: 12*vh
-        //marginBottom: 150,
-        //marginLeft: 10,
-        //marginRight: 10,
-        //bottom: 2*vh,
-        //line-height: 12vh;
-        //color: 'white'
-        //margin-left: -6vh;
-    },
-    predefinedQuestionsWrapper: {
-      position: 'relative',
-      width: width,
-      alignItems: 'flex-start'
     },
     predefinedQuestionRight: {
+      flex: 2,
       alignItems: 'flex-end',
-      position: 'relative',
+      justifyContent: 'flex-end',
       backgroundColor: '#85A1B9',
       color: 'white',
       padding: 1.5*vh,
       fontSize: 2.2*vh,
       borderRadius: 1*vh,
+      marginLeft: 8*vh,
       marginTop: 2.5*vh
     },
     predefinedQuestionLeft: {
+      flex: 2,
       alignItems: 'flex-start',
       position: 'relative',
       backgroundColor: '#85A1B9',
@@ -470,26 +389,9 @@ const styles = StyleSheet.create({
       padding: 1.5*vh,
       fontSize: 2.2*vh,
       borderRadius: 1*vh,
+      marginRight: 8*vh,
       marginTop: 2.5*vh
-    },
-    categoryWrapper: {
-      position: 'absolute',
-      top: 15*vh,
-      width: width*0.6,
-      left: width*0.2,
-      alignItems: 'flex-start'
-    },
-    categoryListWrapper: {
-        position: 'relative',
-        flexDirection: 'column',
-        alignItems: 'center',
-        left: width*0.1,
-        right: width*0.1,
-    },
-    categoryButton: {
-        marginBottom: 0.8*vh,
-        marginTop: 0.8*vh,
-        position: 'relative',
-        borderRadius: 20
     }
 });
+
+
