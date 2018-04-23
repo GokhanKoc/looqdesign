@@ -20,27 +20,7 @@ import { TabNavigator } from 'react-navigation';
 
 const MainNavigator = TabNavigator ({
   //welcome: { screen: WelcomeScreen },
-  signup: { screen: QuestionScreen },
-  main: {
-      screen: TabNavigator({
-        question: { screen: QuestionScreen },
-        settings: { screen: SettingsScreen },
-        answer: { screen: AnswerScreen },
-        register: { screen: RegisterScreen }
-      },{
-        navigationOptions: {
-          tabBarVisible: false
-        },
-        lazy: true,
-      }
-    )
-  }
-}, {
-  navigationOptions: {
-    tabBarVisible: false
-  },
-  lazy: true,
-});
+  signup: { screen: QuestionScreen }});
 
 export default class MainContainer extends Component {
 
