@@ -14,22 +14,27 @@ import RegisterScreen from '../screens/RegisterScreen';
 import AnswerScreen from '../screens/AnswerScreen';
 import AnswerChat from '../screens/AnswerChat';
 
-
 import { TabNavigator } from 'react-navigation';
 
 
 const MainNavigator = TabNavigator ({
-  //welcome: { screen: WelcomeScreen },
-  signup: { screen: QuestionScreen }});
+    //welcome: { screen: WelcomeScreen },
+    signup: { screen: SignUpScreen }
+  }, {
+    navigationOptions: {
+      tabBarVisible: false
+    },
+    lazy: true,
+  });
 
 export default class MainContainer extends Component {
 
     render() {
-        return (
-          <View style={styles.container}>
+         return (
+           <View style={styles.container}>
             <MainNavigator/>
           </View>
-        );
+        ); 
     }
   }
 

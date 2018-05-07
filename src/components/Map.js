@@ -75,22 +75,7 @@ class Map extends React.Component {
 
   }
 
-  shouldComponentUpdate(nextProps, nextState){
-    if(this.props.location.latitude === nextProps.location.latitude){
-      console.log("SHOULD COMPONENT UPDATE FALSE")
-      return false
-    }else{
-      console.log("SHOULD COMPONENT UPDATE TRUE")
-      return true
-    }
-  }
-
   componentWillReceiveProps(nextProps) {
-
-    console.log("componentWillReceiveProps")
-
-    console.log("LATITUDE NEXT PROS"+nextProps.location.latitude)
-    console.log("LATITUDE THIS PROS"+this.props.location.latitude)
 
     if(nextProps.location !== this.props.location) {
       this.setState({location: nextProps.location});

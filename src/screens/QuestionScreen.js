@@ -234,7 +234,6 @@ class QuestionScreen extends Component {
                 <View style={styles.categoryWrapper}>
                   <View style={styles.categoryListWrapper}>
 
-                    <Text>{constants.QUESTION_TYPE_FOOD}
                       <Switch
                         onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_FOOD)}
                         onTintColor="#00ff00"
@@ -242,8 +241,6 @@ class QuestionScreen extends Component {
                         thumbTintColor="#0000ff"
                         tintColor="#ff0000"
                         value={this.state.foodSwitchIsOn}/>
-                    </Text>
-                    <Text>{constants.QUESTION_TYPE_SURPRISE}
                       <Switch
                         onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_SURPRISE)}
                         onTintColor="#00ff00"
@@ -251,8 +248,6 @@ class QuestionScreen extends Component {
                         thumbTintColor="#0000ff"
                         tintColor="#ff0000"
                         value={this.state.surpriseSwitchIsOn}/>
-                    </Text>
-                    <Text>{constants.QUESTION_TYPE_EVENT}
                       <Switch
                         onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_EVENT)}
                         onTintColor="#00ff00"
@@ -260,8 +255,6 @@ class QuestionScreen extends Component {
                         thumbTintColor="#0000ff"
                         tintColor="#ff0000"
                         value={this.state.eventSwitchIsOn}/>
-                    </Text>
-                    <Text>{constants.QUESTION_TYPE_HOTEL}
                       <Switch
                         onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_HOTEL)}
                         onTintColor="#00ff00"
@@ -269,8 +262,6 @@ class QuestionScreen extends Component {
                         thumbTintColor="#0000ff"
                         tintColor="#ff0000"
                         value={this.state.hotelSwitchIsOn}/>
-                    </Text>
-                    <Text>{constants.QUESTION_TYPE_FUN}
                       <Switch
                         onValueChange={() => this.categorySelected(constants.QUESTION_TYPE_FUN)}
                         onTintColor="#00ff00"
@@ -278,7 +269,6 @@ class QuestionScreen extends Component {
                         thumbTintColor="#0000ff"
                         tintColor="#ff0000"
                         value={this.state.funSwitchIsOn}/>
-                    </Text>
                   </View>
                 </View>
                 <View style={styles.questionWrapper}>
